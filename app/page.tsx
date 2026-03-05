@@ -63,7 +63,7 @@ function VerticalIconRibbon() {
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 1, delay: 1.2 }}
-      className='absolute left-4 top-0 z-20 flex h-full w-40 flex-col items-center overflow-hidden'
+      className='absolute left-2 top-0 z-20 hidden h-full w-28 flex-col items-center overflow-hidden lg:flex xl:left-4 xl:w-40'
     >
       {/* Top fade-out gradient */}
       <div
@@ -90,9 +90,9 @@ function VerticalIconRibbon() {
         {tripled.map((Icon, i) => (
           <div
             key={i}
-            className='flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl border border-[#2D6A4F]/[0.07] bg-[#FAF7F2]/90 shadow-sm'
+            className='flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-[#2D6A4F]/[0.07] bg-[#FAF7F2]/90 shadow-sm xl:h-20 xl:w-20'
           >
-            <Icon className='h-9 w-9 text-[#2D6A4F]/40' />
+            <Icon className='h-6 w-6 text-[#2D6A4F]/40 xl:h-9 xl:w-9' />
           </div>
         ))}
       </div>
@@ -328,7 +328,7 @@ export default function MarketingDesign2() {
       </nav>
 
       {/* ══ HERO ══ */}
-      <section className='relative flex min-h-screen overflow-hidden'>
+      <section className='relative flex min-h-[85vh] overflow-hidden md:min-h-screen'>
         {/* Vertical icon ribbon — left side */}
         <VerticalIconRibbon />
 
@@ -336,7 +336,7 @@ export default function MarketingDesign2() {
         <CurvedWordRibbon />
 
         {/* Hero main area — offset by the left ribbon */}
-        <div className='relative z-10 mx-auto flex w-full max-w-7xl flex-1 items-center justify-center px-6 pb-16 pt-24 md:px-10'>
+        <div className='relative z-10 mx-auto flex w-full max-w-7xl flex-1 items-center justify-center px-6 pb-16 pt-24 md:px-10 lg:pl-44 xl:pl-52'>
           {/* Text content — left side */}
           <div className='flex flex-1 flex-col items-start'>
             {/* Badge */}
@@ -355,7 +355,7 @@ export default function MarketingDesign2() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className='max-w-3xl text-left text-5xl font-bold leading-[1.08] tracking-tight md:text-7xl lg:text-[6.5rem]'
+              className='max-w-3xl text-left text-[2.25rem] font-bold leading-[1.08] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl xl:text-[6.5rem]'
               style={{ fontFamily: 'var(--font-sans), sans-serif' }}
             >
               For those who want
@@ -405,7 +405,7 @@ export default function MarketingDesign2() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.4, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className='pointer-events-none absolute bottom-0 right-0 z-20 hidden md:block'
+            className='pointer-events-none absolute bottom-0 right-0 z-20 hidden max-w-[45%] lg:block xl:max-w-[50%]'
             style={{ transform: 'translateY(2rem)' }}
           >
             <Image
@@ -414,7 +414,7 @@ export default function MarketingDesign2() {
               width={480}
               height={1080}
               priority
-              className='h-[52rem] w-auto lg:h-[64rem] xl:h-[72rem]'
+              className='h-[48rem] w-auto xl:h-[56rem] 2xl:h-[72rem]'
             />
           </motion.div>
         </div>
