@@ -63,7 +63,7 @@ function VerticalIconRibbon() {
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 1, delay: 1.2 }}
-      className='absolute left-2 top-0 z-20 hidden h-full w-28 flex-col items-center overflow-hidden lg:flex xl:left-4 xl:w-40'
+      className='absolute left-2 top-0 z-20 hidden h-full w-28 flex-col items-center overflow-hidden xl:flex xl:left-4 xl:w-40'
     >
       {/* Top fade-out gradient */}
       <div
@@ -336,7 +336,7 @@ export default function MarketingDesign2() {
         <CurvedWordRibbon />
 
         {/* Hero main area — offset by the left ribbon */}
-        <div className='relative z-10 mx-auto flex w-full max-w-7xl flex-1 items-center justify-center px-6 pb-16 pt-24 md:px-10 lg:pl-44 xl:pl-52'>
+        <div className='relative z-10 mx-auto flex w-full max-w-7xl flex-1 items-center justify-center px-6 pb-16 pt-24 md:px-10 xl:pl-52'>
           {/* Text content — left side */}
           <div className='flex flex-1 flex-col items-start'>
             {/* Badge */}
@@ -405,7 +405,7 @@ export default function MarketingDesign2() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.4, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className='pointer-events-none absolute bottom-0 right-0 z-20 hidden max-w-[45%] lg:block xl:max-w-[50%]'
+            className='pointer-events-none absolute bottom-0 right-0 z-20 hidden max-w-[45%] xl:block xl:max-w-[50%]'
             style={{ transform: 'translateY(2rem)' }}
           >
             <Image
