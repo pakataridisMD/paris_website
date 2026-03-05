@@ -62,7 +62,7 @@ function VerticalIconRibbon() {
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 1, delay: 1.2 }}
-      className='absolute left-2 top-0 z-20 hidden h-full w-28 flex-col items-center overflow-hidden xl:flex xl:left-4 xl:w-40'
+      className='absolute left-2 top-0 z-20 hidden h-full w-24 flex-col items-center overflow-hidden xl:flex xl:left-3 xl:w-32'
     >
       {/* Top fade-out gradient */}
       <div
@@ -89,9 +89,9 @@ function VerticalIconRibbon() {
         {tripled.map((Icon, i) => (
           <div
             key={i}
-            className='flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-[#2D6A4F]/[0.07] bg-[#FAF7F2]/90 shadow-sm xl:h-20 xl:w-20'
+            className='flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-[#2D6A4F]/[0.07] bg-[#FAF7F2]/90 shadow-sm xl:h-16 xl:w-16'
           >
-            <Icon className='h-6 w-6 text-[#2D6A4F]/40 xl:h-9 xl:w-9' />
+            <Icon className='h-6 w-6 text-[#2D6A4F]/40 xl:h-7 xl:w-7' />
           </div>
         ))}
       </div>
@@ -118,7 +118,7 @@ function CurvedWordRibbon() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1, delay: 1.6 }}
-      className='pointer-events-none absolute bottom-0 left-0 right-0 z-30 h-24 overflow-hidden md:h-28'
+      className='pointer-events-none absolute bottom-0 left-0 right-0 z-30 h-28 overflow-hidden md:h-32'
     >
       <svg
         className='absolute inset-0 h-full w-full'
@@ -135,14 +135,14 @@ function CurvedWordRibbon() {
           href='#wordCurve'
           fill='none'
           stroke='rgba(10,26,20,0.88)'
-          strokeWidth='65'
+          strokeWidth='80'
           strokeLinecap='round'
         />
 
         {/* Single flowing text — long string ensures full coverage */}
         <text
           fill='rgba(255,255,255,0.35)'
-          fontSize='13'
+          fontSize='18'
           fontFamily='var(--font-outfit), sans-serif'
           letterSpacing='0.15em'
           style={{ textTransform: 'uppercase' }}
@@ -335,7 +335,7 @@ export default function MarketingDesign2() {
         <CurvedWordRibbon />
 
         {/* Hero main area — offset by the left ribbon */}
-        <div className='relative z-10 mx-auto flex w-full max-w-7xl flex-1 items-center justify-center px-6 pb-16 pt-24 md:px-10 xl:pl-52'>
+        <div className='relative z-10 mx-auto flex w-full max-w-7xl flex-1 items-center justify-center px-6 pb-16 pt-24 md:px-10 xl:pl-40'>
           {/* Text content — left side */}
           <div className='flex flex-1 flex-col items-start'>
             {/* Badge */}
@@ -354,7 +354,7 @@ export default function MarketingDesign2() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className='max-w-3xl text-left text-[2.25rem] font-bold leading-[1.08] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5rem] 2xl:text-[6.5rem]'
+              className='max-w-3xl text-left text-[2.25rem] font-bold leading-[1.08] tracking-tight sm:text-5xl md:text-5xl lg:text-6xl xl:text-[4rem] 2xl:text-[5.5rem]'
               style={{ fontFamily: 'var(--font-sans), sans-serif' }}
             >
               For those who want
