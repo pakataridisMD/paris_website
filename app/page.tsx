@@ -404,7 +404,7 @@ export default function MarketingDesign2() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.4, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className='pointer-events-none absolute bottom-0 right-0 z-20 hidden max-w-[45%] xl:block xl:max-w-[50%]'
+            className='pointer-events-none absolute bottom-0 -right-8 z-20 hidden max-w-[38%] xl:block 2xl:-right-12 2xl:max-w-[42%]'
           >
             <Image
               src='/wanghaf.svg'
