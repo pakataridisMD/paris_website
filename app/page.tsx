@@ -43,7 +43,6 @@ import {
    VERTICAL ICON RIBBON — left-side strip of icons
    ───────────────────────────────────────────────── */
 const RIBBON_ICONS = [
-  GeneralSurgery,
   Gastroenterology,
   Intestine,
   Stomach,
@@ -119,12 +118,12 @@ function CurvedWordRibbon() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1, delay: 1.6 }}
-      className='pointer-events-none absolute inset-0 z-30 overflow-hidden'
+      className='pointer-events-none absolute bottom-0 left-0 right-0 z-30 h-24 overflow-hidden md:h-28'
     >
       <svg
         className='absolute inset-0 h-full w-full'
-        viewBox='-400 0 3600 800'
-        preserveAspectRatio='xMidYMid slice'
+        viewBox='-400 650 3600 150'
+        preserveAspectRatio='none'
         aria-hidden='true'
       >
         <defs>
@@ -346,7 +345,7 @@ export default function MarketingDesign2() {
               transition={{ duration: 0.8, delay: 0.5 }}
               className='mb-6 inline-flex items-center gap-2 rounded-full border border-[#2D6A4F]/15 bg-[#2D6A4F]/5 px-5 py-2 text-sm text-[#2D6A4F]'
             >
-              <span className='h-1.5 w-1.5 animate-pulse rounded-full bg-[#2D6A4F]' />
+              <GeneralSurgery className='h-4 w-4' />
               General Surgery · Sofia
             </motion.div>
 
