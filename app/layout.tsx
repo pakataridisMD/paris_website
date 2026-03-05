@@ -14,6 +14,8 @@ import {
   Lora,
   Nunito_Sans,
 } from 'next/font/google';
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import './globals.css';
 
 const raleway = Raleway({ subsets: ['latin'], variable: '--font-raleway' });
@@ -80,6 +82,8 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
