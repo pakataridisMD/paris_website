@@ -355,7 +355,7 @@ export default function MarketingDesign2() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className='max-w-3xl text-left text-[2.25rem] font-bold leading-[1.08] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl xl:text-[6.5rem]'
+              className='max-w-3xl text-left text-[2.25rem] font-bold leading-[1.08] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5rem] 2xl:text-[6.5rem]'
               style={{ fontFamily: 'var(--font-sans), sans-serif' }}
             >
               For those who want
@@ -406,7 +406,6 @@ export default function MarketingDesign2() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.4, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
             className='pointer-events-none absolute bottom-0 right-0 z-20 hidden max-w-[45%] xl:block xl:max-w-[50%]'
-            style={{ transform: 'translateY(2rem)' }}
           >
             <Image
               src='/wanghaf.svg'
@@ -414,7 +413,7 @@ export default function MarketingDesign2() {
               width={480}
               height={1080}
               priority
-              className='h-[48rem] w-auto xl:h-[56rem] 2xl:h-[72rem]'
+              className='h-auto max-h-[82vh] w-auto'
             />
           </motion.div>
         </div>
