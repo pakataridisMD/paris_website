@@ -1,6 +1,13 @@
 'use client';
 
 import { motion, useInView, AnimatePresence } from 'motion/react';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import Image from 'next/image';
 import { useRef, useState, useEffect } from 'react';
 import {
@@ -43,15 +50,15 @@ import {
    VERTICAL ICON RIBBON — left-side strip of icons
    ───────────────────────────────────────────────── */
 const RIBBON_ICONS = [
-  Gastroenterology,
-  Intestine,
-  Stomach,
-  Colon,
-  Liver,
-  Gallbladder,
-  Pancreas,
-  HealthStethoscope,
-  Spine,
+  { Icon: Gastroenterology, color: 'text-teal-600/50' },
+  { Icon: Intestine, color: 'text-amber-700/50' },
+  { Icon: Stomach, color: 'text-rose-600/50' },
+  { Icon: Colon, color: 'text-violet-600/50' },
+  { Icon: Liver, color: 'text-emerald-700/50' },
+  { Icon: Gallbladder, color: 'text-sky-600/50' },
+  { Icon: Pancreas, color: 'text-orange-600/50' },
+  { Icon: HealthStethoscope, color: 'text-slate-600/50' },
+  { Icon: Spine, color: 'text-indigo-600/50' },
 ];
 
 function VerticalIconRibbon() {
@@ -86,12 +93,12 @@ function VerticalIconRibbon() {
           animation: 'ribbonScrollVertical 40s linear infinite',
         }}
       >
-        {tripled.map((Icon, i) => (
+        {tripled.map(({ Icon, color }, i) => (
           <div
             key={i}
             className='flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-[#2D6A4F]/[0.07] bg-[#FAF7F2]/90 shadow-sm xl:h-16 xl:w-16'
           >
-            <Icon className='h-6 w-6 text-[#2D6A4F]/40 xl:h-7 xl:w-7' />
+            <Icon className={`h-6 w-6 xl:h-7 xl:w-7 ${color}`} />
           </div>
         ))}
       </div>
@@ -256,6 +263,209 @@ function FloatingCard({
   );
 }
 
+/* ─────────────────────────────────────────────────
+   CONSULTATION CARD — single CTA with dialog form
+   ───────────────────────────────────────────────── */
+function ConsultationCard() {
+  const [open, setOpen] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [error, setError] = useState('');
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setSending(true);
+    setError('');
+
+    const form = e.currentTarget;
+    const data = {
+      name: (form.elements.namedItem('name') as HTMLInputElement).value,
+      email: (form.elements.namedItem('email') as HTMLInputElement).value,
+      phone: (form.elements.namedItem('phone') as HTMLInputElement).value,
+      message: (form.elements.namedItem('message') as HTMLTextAreaElement)
+        .value,
+    };
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) {
+        const body = await res.json();
+        throw new Error(body.error || 'Something went wrong');
+      }
+
+      setSent(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to send.');
+    } finally {
+      setSending(false);
+    }
+  }
+
+  function handleOpenChange(isOpen: boolean) {
+    setOpen(isOpen);
+    if (!isOpen) {
+      // Reset state when closing
+      setTimeout(() => {
+        setSent(false);
+        setError('');
+      }, 300);
+    }
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={handleOpenChange}>
+      <DialogTrigger className='text-left'>
+        <FloatingCard className='group max-w-lg cursor-pointer rounded-3xl border border-white/10 bg-white/[0.06] p-8 text-center backdrop-blur-sm transition hover:border-[#52B788]/25 hover:bg-white/10 md:p-10'>
+          <div className='mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-[#52B788]/15'>
+            <Stethoscope className='h-6 w-6 text-[#52B788]' />
+          </div>
+          <h3
+            className='text-2xl text-white'
+            style={{ fontFamily: 'var(--font-raleway), sans-serif' }}
+          >
+            Book a Consultation
+          </h3>
+          <p className='mt-3 text-sm text-white/50'>
+            In-person at University Hospital Lozenetz, Sofia, or an online
+            second opinion — available internationally.
+          </p>
+          <motion.span
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className='mt-8 inline-flex items-center gap-3 rounded-full bg-[#52B788] px-7 py-3.5 text-sm font-medium text-white shadow-lg shadow-[#2D6A4F]/20 transition hover:bg-[#40A070]'
+          >
+            Get Started
+            <ArrowRight className='h-4 w-4' />
+          </motion.span>
+        </FloatingCard>
+      </DialogTrigger>
+
+      <DialogContent className='sm:max-w-md bg-[#1a1a1a] border-white/10 text-white rounded-2xl p-0 overflow-hidden'>
+        {sent ? (
+          <div className='flex flex-col items-center gap-4 px-6 py-12 text-center'>
+            <div className='flex h-14 w-14 items-center justify-center rounded-full bg-[#52B788]/15'>
+              <Heart className='h-6 w-6 text-[#52B788]' />
+            </div>
+            <h3
+              className='text-xl font-medium'
+              style={{ fontFamily: 'var(--font-raleway), sans-serif' }}
+            >
+              Message sent
+            </h3>
+            <p className='text-sm text-white/50'>
+              Dr. Pakataridis will review your enquiry and respond shortly.
+            </p>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit}>
+            <div className='border-b border-white/10 px-6 py-5'>
+              <DialogTitle
+                className='text-base font-medium text-white'
+                style={{ fontFamily: 'var(--font-raleway), sans-serif' }}
+              >
+                Book a Consultation
+              </DialogTitle>
+              <DialogDescription className='mt-1 text-xs text-white/40'>
+                Fill in your details and describe your enquiry.
+              </DialogDescription>
+            </div>
+
+            <div className='space-y-4 px-6 py-5'>
+              <div>
+                <label
+                  htmlFor='name'
+                  className='mb-1.5 block text-xs font-medium text-white/60'
+                >
+                  Full Name <span className='text-[#52B788]'>*</span>
+                </label>
+                <input
+                  id='name'
+                  name='name'
+                  type='text'
+                  required
+                  className='w-full rounded-lg border border-white/10 bg-white/5 px-3.5 py-2.5 text-sm text-white placeholder-white/25 outline-none transition focus:border-[#52B788]/50 focus:ring-1 focus:ring-[#52B788]/25'
+                  placeholder='Your name'
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor='email'
+                  className='mb-1.5 block text-xs font-medium text-white/60'
+                >
+                  Email <span className='text-[#52B788]'>*</span>
+                </label>
+                <input
+                  id='email'
+                  name='email'
+                  type='email'
+                  required
+                  className='w-full rounded-lg border border-white/10 bg-white/5 px-3.5 py-2.5 text-sm text-white placeholder-white/25 outline-none transition focus:border-[#52B788]/50 focus:ring-1 focus:ring-[#52B788]/25'
+                  placeholder='you@email.com'
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor='phone'
+                  className='mb-1.5 block text-xs font-medium text-white/60'
+                >
+                  Phone <span className='text-white/25'>(optional)</span>
+                </label>
+                <input
+                  id='phone'
+                  name='phone'
+                  type='tel'
+                  className='w-full rounded-lg border border-white/10 bg-white/5 px-3.5 py-2.5 text-sm text-white placeholder-white/25 outline-none transition focus:border-[#52B788]/50 focus:ring-1 focus:ring-[#52B788]/25'
+                  placeholder='+359 ...'
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor='message'
+                  className='mb-1.5 block text-xs font-medium text-white/60'
+                >
+                  Your Enquiry <span className='text-[#52B788]'>*</span>
+                </label>
+                <textarea
+                  id='message'
+                  name='message'
+                  required
+                  rows={4}
+                  className='w-full resize-none rounded-lg border border-white/10 bg-white/5 px-3.5 py-2.5 text-sm text-white placeholder-white/25 outline-none transition focus:border-[#52B788]/50 focus:ring-1 focus:ring-[#52B788]/25'
+                  placeholder='Briefly describe your medical concern or question...'
+                />
+              </div>
+
+              {error && (
+                <p className='rounded-lg bg-red-500/10 px-3 py-2 text-xs text-red-400'>
+                  {error}
+                </p>
+              )}
+            </div>
+
+            <div className='border-t border-white/10 px-6 py-4'>
+              <button
+                type='submit'
+                disabled={sending}
+                className='w-full rounded-full bg-[#52B788] px-6 py-3 text-sm font-medium text-white transition hover:bg-[#40A070] disabled:cursor-not-allowed disabled:opacity-50'
+              >
+                {sending ? 'Sending...' : 'Send Enquiry'}
+              </button>
+            </div>
+          </form>
+        )}
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 /* ══════════════════════════════════════════════════
    PAGE
    ══════════════════════════════════════════════════ */
@@ -335,7 +545,7 @@ export default function MarketingDesign2() {
         <CurvedWordRibbon />
 
         {/* Hero main area — offset by the left ribbon */}
-        <div className='relative z-10 mx-auto flex w-full max-w-7xl flex-1 items-center justify-center px-6 pb-16 pt-24 md:px-10 xl:pl-40'>
+        <div className='relative z-10 mx-auto flex w-full max-w-7xl flex-1 items-center justify-center px-6 pb-16 pt-24 md:px-10'>
           {/* Text content — left side */}
           <div className='flex flex-1 flex-col items-start'>
             {/* Badge */}
@@ -1095,58 +1305,8 @@ export default function MarketingDesign2() {
               </p>
             </div>
 
-            <div className='mt-12 grid gap-5 md:grid-cols-2'>
-              <FloatingCard className='group rounded-3xl border border-white/10 bg-white/[0.06] p-8 backdrop-blur-sm transition hover:border-[#52B788]/25 hover:bg-white/10 md:p-10'>
-                <div className='mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-[#52B788]/15'>
-                  <MapPin className='h-6 w-6 text-[#52B788]' />
-                </div>
-                <h3
-                  className='text-2xl text-white'
-                  style={{ fontFamily: 'var(--font-raleway), sans-serif' }}
-                >
-                  In-person consultation
-                </h3>
-                <p className='mt-3 text-sm text-white/50'>
-                  Private consultations at University Hospital Lozenetz, Sofia.
-                </p>
-                <motion.a
-                  href='#'
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className='mt-8 inline-flex items-center gap-3 rounded-full bg-[#52B788] px-7 py-3.5 text-sm font-medium text-white shadow-lg shadow-[#2D6A4F]/20 transition hover:bg-[#40A070]'
-                >
-                  Book in Sofia
-                  <ArrowRight className='h-4 w-4' />
-                </motion.a>
-              </FloatingCard>
-
-              <FloatingCard
-                delay={0.1}
-                className='group rounded-3xl border border-[#2D6A4F]/20 bg-[#2D6A4F] p-8 transition hover:border-[#52B788]/30 hover:shadow-xl hover:shadow-[#2D6A4F]/20 md:p-10'
-              >
-                <div className='mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-white/15'>
-                  <Globe className='h-6 w-6 text-white' />
-                </div>
-                <h3
-                  className='text-2xl text-white'
-                  style={{ fontFamily: 'var(--font-raleway), sans-serif' }}
-                >
-                  Online second opinion
-                </h3>
-                <p className='mt-3 text-sm text-white/60'>
-                  Available internationally. Clear explanations, structured
-                  evaluation.
-                </p>
-                <motion.a
-                  href='#'
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className='mt-8 inline-flex items-center gap-3 rounded-full bg-white px-7 py-3.5 text-sm font-medium text-[#2D6A4F] transition hover:bg-white/90'
-                >
-                  Online consultation
-                  <ArrowUpRight className='h-4 w-4' />
-                </motion.a>
-              </FloatingCard>
+            <div className='mt-12 flex justify-center'>
+              <ConsultationCard />
             </div>
 
             <div className='mt-8 flex flex-wrap items-center justify-center gap-6 text-sm text-white/45'>
