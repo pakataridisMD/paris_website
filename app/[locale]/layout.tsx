@@ -13,12 +13,29 @@ import {
   Manrope,
   Lora,
   Nunito_Sans,
+  Syne,
+  Inter,
 } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import './globals.css';
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
+import { routing } from '@/i18n/routing';
+import { notFound } from 'next/navigation';
+import '../globals.css';
 
-const raleway = Raleway({ subsets: ['latin'], variable: '--font-raleway' });
+const raleway = Raleway({
+  subsets: ['latin', 'cyrillic'],
+  variable: '--font-raleway',
+});
+const syne = Syne({
+  subsets: ['latin', 'greek'],
+  variable: '--font-syne',
+});
+const inter = Inter({
+  subsets: ['latin', 'cyrillic'],
+  variable: '--font-inter',
+});
 const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] });
 const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
@@ -68,20 +85,37 @@ export const metadata: Metadata = {
     'International perspective. Local care. General surgery consultations in Sofia with Dr. Paraskevas Pakataridis.',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
+  params,
 }: Readonly<{
   children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }>) {
+  const { locale } = await params;
+
+  // Validate locale
+  if (!routing.locales.includes(locale as 'en' | 'el' | 'bg')) {
+    notFound();
+  }
+
+  const messages = await getMessages();
+
   return (
     <html
-      lang='en'
-      className={`${raleway.variable} ${playfairDisplay.variable} ${dmSans.variable} ${instrumentSerif.variable} ${outfit.variable} ${cormorantGaramond.variable} ${sourceSans3.variable} ${urbanist.variable} ${manrope.variable} ${lora.variable} ${nunitoSans.variable}`}
+      lang={locale}
+      translate='no'
+      className={`${raleway.variable} ${syne.variable} ${inter.variable} ${playfairDisplay.variable} ${dmSans.variable} ${instrumentSerif.variable} ${outfit.variable} ${cormorantGaramond.variable} ${sourceSans3.variable} ${urbanist.variable} ${manrope.variable} ${lora.variable} ${nunitoSans.variable}`}
     >
+      <head>
+        <meta name='google' content='notranslate' />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <NextIntlClientProvider messages={messages}>
+          {children}
+        </NextIntlClientProvider>
         <Analytics />
         <SpeedInsights />
       </body>

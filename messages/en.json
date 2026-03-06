@@ -1,0 +1,140 @@
+{
+  "Nav": {
+    "brand": "Dr. Pakataridis",
+    "about": "About",
+    "patients": "Patients",
+    "approach": "Approach",
+    "academic": "Academic",
+    "contact": "Contact",
+    "book": "Book"
+  },
+  "Hero": {
+    "badge": "General Surgery · Sofia",
+    "headingPrefix": "For those who want",
+    "words": ["clarity", "precision", "answers", "confidence"],
+    "subtitle": "Dr. Paraskevas Pakataridis, MD — international surgical expertise with personal attention.",
+    "ctaBook": "Book a Consultation",
+    "ctaLearn": "Learn more"
+  },
+  "CurvedRibbon": {
+    "words": "Clarity  ·  Precision  ·  Evidence  ·  Judgment  ·  Timing  ·  Preparation  ·  Execution  ·  Transparency  ·  "
+  },
+  "About": {
+    "badge": "Background",
+    "heading": "International perspective.",
+    "headingAccent": "Local care.",
+    "description": "Clinical experience shaped within institutions that defined modern surgical standards.",
+    "hospitals": [
+      { "name": "The Mount Sinai Hospital", "location": "New York, USA" },
+      { "name": "Queen Elizabeth Hospital", "location": "Birmingham, UK" },
+      {
+        "name": "University Hospital Lozenetz",
+        "location": "Sofia — Current Practice"
+      }
+    ],
+    "tagline": "Global exposure. European standards. Personal attention."
+  },
+  "Patients": {
+    "badge": "International Patients",
+    "heading1": "Living in Bulgaria,",
+    "heading2": "thinking in",
+    "headingAccent": "English?",
+    "description": "You don't need translation. You don't need confusion. You need a physician who understands both medicine and your language.",
+    "languages": "Consultations in fluent English and Greek.",
+    "categories": [
+      "Expats",
+      "Diplomats",
+      "Professionals",
+      "Students",
+      "Travelers",
+      "Families"
+    ]
+  },
+  "Approach": {
+    "badge": "Approach",
+    "heading1": "A different type of",
+    "heading2": "surgical",
+    "headingAccent": "consultation.",
+    "steps": [
+      {
+        "title": "Evidence-based assessment",
+        "desc": "Grounded in current surgical evidence, not outdated protocols."
+      },
+      {
+        "title": "Modern surgical reasoning",
+        "desc": "Contemporary thinking that reflects the latest standards."
+      },
+      {
+        "title": "Transparent discussion",
+        "desc": "Open conversation about options, risks, and outcomes."
+      },
+      {
+        "title": "Conservative when appropriate",
+        "desc": "Non-operative management when it's the right path."
+      },
+      {
+        "title": "Precise when necessary",
+        "desc": "Surgical intervention executed with care and precision."
+      }
+    ],
+    "quote1": "No unnecessary drama.",
+    "quote2": "No exaggerated promises.",
+    "quoteAccent": "Just precision."
+  },
+  "Academic": {
+    "badge": "Academic",
+    "heading1": "For students &",
+    "heading2": "young",
+    "headingAccent": "doctors.",
+    "description": "Surgery is not learned from textbooks alone. Dr. Pakataridis is a Surgical Simulation Educator and active researcher.",
+    "organizations": [
+      "Society of American Gastrointestinal and Endoscopic Surgeons",
+      "American College of Surgeons"
+    ],
+    "sidebarTitle": "If you are serious about",
+    "sidebarItems": [
+      "Research",
+      "Publications",
+      "Technical growth",
+      "Academic career"
+    ],
+    "sidebarQuote": "You will not get shortcuts. You will get structure."
+  },
+  "Philosophy": {
+    "heading": "The Philosophy",
+    "description": "Modern surgery is not only about operating. It is about:",
+    "items": ["Judgment", "Timing", "Preparation", "Execution"],
+    "mergeQuote": "And knowing when not to operate."
+  },
+  "Contact": {
+    "badge": "Get in Touch",
+    "heading": "Book a",
+    "headingAccent": "consultation.",
+    "description": "For patients, professionals, and those who expect more than routine care.",
+    "cardTitle": "Book a Consultation",
+    "cardDescription": "In-person at University Hospital Lozenetz, Sofia, or an online second opinion — available internationally.",
+    "cardCta": "Get Started",
+    "dialogTitle": "Book a Consultation",
+    "dialogDescription": "Fill in your details and describe your enquiry.",
+    "labelName": "Full Name",
+    "labelEmail": "Email",
+    "labelPhone": "Phone",
+    "labelPhoneOptional": "(optional)",
+    "labelMessage": "Your Enquiry",
+    "placeholderName": "Your name",
+    "placeholderEmail": "you@email.com",
+    "placeholderPhone": "+359 ...",
+    "placeholderMessage": "Briefly describe your medical concern or question...",
+    "submitSending": "Sending...",
+    "submitButton": "Send Enquiry",
+    "successTitle": "Message sent",
+    "successMessage": "Dr. Pakataridis will review your enquiry and respond shortly.",
+    "infoEvaluation": "Structured evaluation",
+    "infoLanguages": "English & Greek",
+    "infoLocation": "Sofia, Bulgaria"
+  },
+  "Footer": {
+    "name": "Dr. Paraskevas Pakataridis, MD",
+    "copyright": "General Surgery · Sofia · ©"
+  }
+}

@@ -1,5 +1,8 @@
 'use client';
 
+import { useTranslations, useLocale } from 'next-intl';
+import { Link as IntlLink, useRouter, usePathname } from '@/i18n/routing';
+
 import { motion, useInView, AnimatePresence } from 'motion/react';
 import {
   Dialog,
@@ -9,6 +12,12 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import Image from 'next/image';
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from '@/components/ui/dropdown-menu';
 import { useRef, useState, useEffect } from 'react';
 import {
   ArrowRight,
@@ -111,15 +120,13 @@ function VerticalIconRibbon() {
    S-curve at the VERY BOTTOM of the hero, well
    below heading, subtitle, and CTA buttons.
    ───────────────────────────────────────────────── */
-const WORD_BLOCK =
-  'Clarity  ·  Precision  ·  Evidence  ·  Judgment  ·  Timing  ·  Preparation  ·  Execution  ·  Transparency  ·  ';
-const CURVED_WORDS = WORD_BLOCK.repeat(6);
+function CurvedWordRibbon({ words }: { words: string }) {
+  const repeatedWords = words.repeat(6);
 
-// Gentle wave in the BOTTOM of the viewBox (y 710–780)
-const CURVE_PATH =
-  'M -400 740 C -100 700, 200 780, 500 730 C 800 680, 1100 780, 1400 730 C 1700 680, 2000 770, 2300 720 C 2600 670, 2900 770, 3200 730';
+  // Gentle wave in the BOTTOM of the viewBox (y 710–780)
+  const CURVE_PATH =
+    'M -400 740 C -100 700, 200 780, 500 730 C 800 680, 1100 780, 1400 730 C 1700 680, 2000 770, 2300 720 C 2600 670, 2900 770, 3200 730';
 
-function CurvedWordRibbon() {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -155,7 +162,7 @@ function CurvedWordRibbon() {
           style={{ textTransform: 'uppercase' }}
         >
           <textPath href='#wordCurve'>
-            {CURVED_WORDS}
+            {repeatedWords}
             <animate
               attributeName='startOffset'
               from='0%'
@@ -173,14 +180,13 @@ function CurvedWordRibbon() {
 /* ─────────────────────────────────────────────────
    WORDFLOW — Cycling hero word animation
    ───────────────────────────────────────────────── */
-const HERO_WORDS = ['clarity', 'precision', 'answers', 'confidence'];
 
-function Wordflow() {
+function Wordflow({ words }: { words: string[] }) {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setIndex((prev) => (prev + 1) % HERO_WORDS.length);
+      setIndex((prev) => (prev + 1) % words.length);
     }, 2800);
     return () => clearInterval(interval);
   }, []);
@@ -189,14 +195,14 @@ function Wordflow() {
     <span className='relative inline-flex h-[1.3em] items-end overflow-y-clip overflow-x-visible align-bottom'>
       <AnimatePresence mode='wait'>
         <motion.span
-          key={HERO_WORDS[index]}
+          key={words[index]}
           initial={{ y: 50, opacity: 0, filter: 'blur(6px)' }}
           animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
           exit={{ y: -50, opacity: 0, filter: 'blur(6px)' }}
           transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
           className='absolute bottom-0 left-0 whitespace-nowrap italic text-[#2D6A4F]'
         >
-          {HERO_WORDS[index]}
+          {words[index]}
         </motion.span>
       </AnimatePresence>
     </span>
@@ -267,6 +273,7 @@ function FloatingCard({
    CONSULTATION CARD — single CTA with dialog form
    ───────────────────────────────────────────────── */
 function ConsultationCard() {
+  const t = useTranslations('Contact');
   const [open, setOpen] = useState(false);
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
@@ -309,7 +316,6 @@ function ConsultationCard() {
   function handleOpenChange(isOpen: boolean) {
     setOpen(isOpen);
     if (!isOpen) {
-      // Reset state when closing
       setTimeout(() => {
         setSent(false);
         setError('');
@@ -328,18 +334,15 @@ function ConsultationCard() {
             className='text-2xl text-white'
             style={{ fontFamily: 'var(--font-raleway), sans-serif' }}
           >
-            Book a Consultation
+            {t('cardTitle')}
           </h3>
-          <p className='mt-3 text-sm text-white/50'>
-            In-person at University Hospital Lozenetz, Sofia, or an online
-            second opinion — available internationally.
-          </p>
+          <p className='mt-3 text-sm text-white/50'>{t('cardDescription')}</p>
           <motion.span
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             className='mt-8 inline-flex items-center gap-3 rounded-full bg-[#52B788] px-7 py-3.5 text-sm font-medium text-white shadow-lg shadow-[#2D6A4F]/20 transition hover:bg-[#40A070]'
           >
-            Get Started
+            {t('cardCta')}
             <ArrowRight className='h-4 w-4' />
           </motion.span>
         </FloatingCard>
@@ -355,11 +358,9 @@ function ConsultationCard() {
               className='text-xl font-medium'
               style={{ fontFamily: 'var(--font-raleway), sans-serif' }}
             >
-              Message sent
+              {t('successTitle')}
             </h3>
-            <p className='text-sm text-white/50'>
-              Dr. Pakataridis will review your enquiry and respond shortly.
-            </p>
+            <p className='text-sm text-white/50'>{t('successMessage')}</p>
           </div>
         ) : (
           <form onSubmit={handleSubmit}>
@@ -368,10 +369,10 @@ function ConsultationCard() {
                 className='text-base font-medium text-white'
                 style={{ fontFamily: 'var(--font-raleway), sans-serif' }}
               >
-                Book a Consultation
+                {t('dialogTitle')}
               </DialogTitle>
               <DialogDescription className='mt-1 text-xs text-white/40'>
-                Fill in your details and describe your enquiry.
+                {t('dialogDescription')}
               </DialogDescription>
             </div>
 
@@ -381,7 +382,7 @@ function ConsultationCard() {
                   htmlFor='name'
                   className='mb-1.5 block text-xs font-medium text-white/60'
                 >
-                  Full Name <span className='text-[#52B788]'>*</span>
+                  {t('labelName')} <span className='text-[#52B788]'>*</span>
                 </label>
                 <input
                   id='name'
@@ -389,7 +390,7 @@ function ConsultationCard() {
                   type='text'
                   required
                   className='w-full rounded-lg border border-white/10 bg-white/5 px-3.5 py-2.5 text-sm text-white placeholder-white/25 outline-none transition focus:border-[#52B788]/50 focus:ring-1 focus:ring-[#52B788]/25'
-                  placeholder='Your name'
+                  placeholder={t('placeholderName')}
                 />
               </div>
 
@@ -398,7 +399,7 @@ function ConsultationCard() {
                   htmlFor='email'
                   className='mb-1.5 block text-xs font-medium text-white/60'
                 >
-                  Email <span className='text-[#52B788]'>*</span>
+                  {t('labelEmail')} <span className='text-[#52B788]'>*</span>
                 </label>
                 <input
                   id='email'
@@ -406,7 +407,7 @@ function ConsultationCard() {
                   type='email'
                   required
                   className='w-full rounded-lg border border-white/10 bg-white/5 px-3.5 py-2.5 text-sm text-white placeholder-white/25 outline-none transition focus:border-[#52B788]/50 focus:ring-1 focus:ring-[#52B788]/25'
-                  placeholder='you@email.com'
+                  placeholder={t('placeholderEmail')}
                 />
               </div>
 
@@ -415,14 +416,17 @@ function ConsultationCard() {
                   htmlFor='phone'
                   className='mb-1.5 block text-xs font-medium text-white/60'
                 >
-                  Phone <span className='text-white/25'>(optional)</span>
+                  {t('labelPhone')}{' '}
+                  <span className='text-white/25'>
+                    {t('labelPhoneOptional')}
+                  </span>
                 </label>
                 <input
                   id='phone'
                   name='phone'
                   type='tel'
                   className='w-full rounded-lg border border-white/10 bg-white/5 px-3.5 py-2.5 text-sm text-white placeholder-white/25 outline-none transition focus:border-[#52B788]/50 focus:ring-1 focus:ring-[#52B788]/25'
-                  placeholder='+359 ...'
+                  placeholder={t('placeholderPhone')}
                 />
               </div>
 
@@ -431,7 +435,7 @@ function ConsultationCard() {
                   htmlFor='message'
                   className='mb-1.5 block text-xs font-medium text-white/60'
                 >
-                  Your Enquiry <span className='text-[#52B788]'>*</span>
+                  {t('labelMessage')} <span className='text-[#52B788]'>*</span>
                 </label>
                 <textarea
                   id='message'
@@ -439,7 +443,7 @@ function ConsultationCard() {
                   required
                   rows={4}
                   className='w-full resize-none rounded-lg border border-white/10 bg-white/5 px-3.5 py-2.5 text-sm text-white placeholder-white/25 outline-none transition focus:border-[#52B788]/50 focus:ring-1 focus:ring-[#52B788]/25'
-                  placeholder='Briefly describe your medical concern or question...'
+                  placeholder={t('placeholderMessage')}
                 />
               </div>
 
@@ -456,7 +460,7 @@ function ConsultationCard() {
                 disabled={sending}
                 className='w-full rounded-full bg-[#52B788] px-6 py-3 text-sm font-medium text-white transition hover:bg-[#40A070] disabled:cursor-not-allowed disabled:opacity-50'
               >
-                {sending ? 'Sending...' : 'Send Enquiry'}
+                {sending ? t('submitSending') : t('submitButton')}
               </button>
             </div>
           </form>
@@ -470,11 +474,42 @@ function ConsultationCard() {
    PAGE
    ══════════════════════════════════════════════════ */
 export default function MarketingDesign2() {
+  const locale = useLocale();
+  const nav = useTranslations('Nav');
+  const hero = useTranslations('Hero');
+  const ribbon = useTranslations('CurvedRibbon');
+  const about = useTranslations('About');
+  const patients = useTranslations('Patients');
+  const approach = useTranslations('Approach');
+  const academic = useTranslations('Academic');
+  const philosophy = useTranslations('Philosophy');
+  const contact = useTranslations('Contact');
+  const footer = useTranslations('Footer');
+
+  // Extract translated arrays
+  const heroWords = hero.raw('words') as string[];
+  const aboutHospitals = about.raw('hospitals') as {
+    name: string;
+    location: string;
+  }[];
+  const patientCategories = patients.raw('categories') as string[];
+  const approachSteps = approach.raw('steps') as {
+    title: string;
+    desc: string;
+  }[];
+  const academicOrgs = academic.raw('organizations') as string[];
+  const academicSidebarItems = academic.raw('sidebarItems') as string[];
+  const philosophyItems = philosophy.raw('items') as string[];
   return (
     <div
       className='min-h-screen overflow-x-hidden'
       style={{
-        fontFamily: 'var(--font-sans), sans-serif',
+        fontFamily:
+          locale === 'el'
+            ? 'var(--font-syne), sans-serif'
+            : locale === 'bg'
+              ? 'var(--font-inter), sans-serif'
+              : 'var(--font-sans), sans-serif',
         background: '#FAF7F2',
         color: '#1A1A1A',
       }}
@@ -507,22 +542,22 @@ export default function MarketingDesign2() {
               className='text-sm font-medium tracking-wide'
               style={{ fontFamily: 'var(--font-raleway), sans-serif' }}
             >
-              Dr. Pakataridis
+              {nav('brand')}
             </span>
           </div>
 
           <div className='hidden items-center gap-1 rounded-full border border-[#1A1A1A]/[0.06] bg-[#FAF7F2]/80 px-2 py-1.5 text-sm backdrop-blur-xl md:flex'>
-            {['About', 'Patients', 'Approach', 'Academic', 'Contact'].map(
-              (link) => (
-                <a
-                  key={link}
-                  href={`#${link.toLowerCase()}`}
-                  className='rounded-full px-4 py-1.5 text-[#1A1A1A]/50 transition hover:bg-[#2D6A4F]/8 hover:text-[#2D6A4F]'
-                >
-                  {link}
-                </a>
-              ),
-            )}
+            {(
+              ['about', 'patients', 'approach', 'academic', 'contact'] as const
+            ).map((key) => (
+              <a
+                key={key}
+                href={`#${key}`}
+                className='rounded-full px-4 py-1.5 text-[#1A1A1A]/50 transition hover:bg-[#2D6A4F]/8 hover:text-[#2D6A4F]'
+              >
+                {nav(key)}
+              </a>
+            ))}
           </div>
 
           <motion.a
@@ -531,8 +566,67 @@ export default function MarketingDesign2() {
             whileTap={{ scale: 0.97 }}
             className='hidden rounded-full bg-[#2D6A4F] px-6 py-2.5 text-sm font-medium text-white transition hover:bg-[#245A42] md:block'
           >
-            Book
+            {nav('book')}
           </motion.a>
+
+          {/* Language switcher — dropdown */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className='flex items-center gap-1.5 rounded-full border border-[#1A1A1A]/8 bg-[#FAF7F2]/80 px-3 py-2 text-xs font-medium uppercase text-[#1A1A1A]/60 backdrop-blur-xl transition hover:border-[#2D6A4F]/20 hover:text-[#2D6A4F] outline-none cursor-pointer'>
+                <Globe className='h-3.5 w-3.5' />
+                {locale}
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              align='end'
+              sideOffset={8}
+              className='min-w-[120px] rounded-xl border border-[#1A1A1A]/8 bg-[#FAF7F2] p-1 shadow-lg'
+            >
+              {(
+                [
+                  {
+                    code: 'en',
+                    label: 'EN',
+                    flag: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1ec-1f1e7.svg',
+                  },
+                  {
+                    code: 'el',
+                    label: 'EL',
+                    flag: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1ec-1f1f7.svg',
+                  },
+                  {
+                    code: 'bg',
+                    label: 'BG',
+                    flag: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1e7-1f1ec.svg',
+                  },
+                ] as const
+              ).map((item) => (
+                <DropdownMenuItem
+                  key={item.code}
+                  className={`flex items-center gap-2.5 cursor-pointer rounded-lg px-2.5 py-2 text-xs font-medium ${
+                    locale === item.code
+                      ? 'text-[#2D6A4F] bg-[#2D6A4F]/8'
+                      : 'text-[#1A1A1A]/60 hover:text-[#1A1A1A]'
+                  }`}
+                  onClick={() => {
+                    window.location.href =
+                      item.code === 'en' ? '/' : `/${item.code}`;
+                  }}
+                >
+                  <img
+                    src={item.flag}
+                    alt=''
+                    className='h-5 w-5 rounded-full object-cover'
+                    style={{ boxShadow: '0 0 0 1px rgba(0,0,0,0.06)' }}
+                  />
+                  {item.label}
+                  {locale === item.code && (
+                    <span className='ml-auto text-[#2D6A4F]'>✓</span>
+                  )}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </motion.div>
       </nav>
 
@@ -542,7 +636,7 @@ export default function MarketingDesign2() {
         <VerticalIconRibbon />
 
         {/* Curved word ribbon — dark band with flowing text at the bottom */}
-        <CurvedWordRibbon />
+        <CurvedWordRibbon words={ribbon('words')} />
 
         {/* Hero main area — offset by the left ribbon */}
         <div className='relative z-10 mx-auto flex w-full max-w-7xl flex-1 items-center justify-center px-6 pb-16 pt-24 md:px-10'>
@@ -556,7 +650,7 @@ export default function MarketingDesign2() {
               className='mb-6 inline-flex items-center gap-2 rounded-full border border-[#2D6A4F]/15 bg-[#2D6A4F]/5 px-5 py-2 text-sm text-[#2D6A4F]'
             >
               <GeneralSurgery className='h-4 w-4' />
-              General Surgery · Sofia
+              {hero('badge')}
             </motion.div>
 
             {/* Heading with wordflow */}
@@ -567,9 +661,9 @@ export default function MarketingDesign2() {
               className='max-w-3xl text-left text-[2.25rem] font-bold leading-[1.08] tracking-tight sm:text-5xl md:text-5xl lg:text-6xl xl:text-[4rem] 2xl:text-[5.5rem]'
               style={{ fontFamily: 'var(--font-sans), sans-serif' }}
             >
-              For those who want
+              {hero('headingPrefix')}
               <br />
-              <Wordflow />
+              <Wordflow words={heroWords} />
             </motion.h1>
 
             {/* Subtitle */}
@@ -579,8 +673,7 @@ export default function MarketingDesign2() {
               transition={{ duration: 0.8, delay: 1.1 }}
               className='mt-8 max-w-md text-left text-base text-[#1A1A1A]/45 md:text-lg'
             >
-              Dr. Paraskevas Pakataridis, MD — international surgical expertise
-              with personal attention.
+              {hero('subtitle')}
             </motion.p>
 
             {/* CTA buttons */}
@@ -603,7 +696,7 @@ export default function MarketingDesign2() {
                 href='#about'
                 className='inline-flex items-center gap-2 rounded-full border border-[#1A1A1A]/8 px-6 py-3.5 text-sm text-[#1A1A1A]/50 transition hover:border-[#2D6A4F]/20 hover:text-[#2D6A4F]'
               >
-                Learn more
+                {hero('ctaLearn')}
                 <ArrowUpRight className='h-3.5 w-3.5' />
               </a>
             </motion.div>
@@ -639,56 +732,50 @@ export default function MarketingDesign2() {
           <div className='mx-auto max-w-6xl'>
             <div className='mb-16 text-center'>
               <span className='mb-3 inline-block rounded-full bg-[#52B788]/15 px-4 py-1.5 text-xs font-medium tracking-wide uppercase text-[#52B788]'>
-                Background
+                {about('badge')}
               </span>
               <h2
                 className='mt-4 text-3xl text-white md:text-5xl'
                 style={{ fontFamily: 'var(--font-raleway), sans-serif' }}
               >
-                International perspective.{' '}
-                <span className='italic text-[#52B788]'>Local care.</span>
+                {about('heading')}{' '}
+                <span className='italic text-[#52B788]'>
+                  {about('headingAccent')}
+                </span>
               </h2>
               <p className='mx-auto mt-4 max-w-lg text-base text-white/60'>
-                Clinical experience shaped within institutions that defined
-                modern surgical standards.
+                {about('description')}
               </p>
             </div>
 
             <div className='grid gap-5 md:grid-cols-3'>
-              {[
-                {
-                  name: 'The Mount Sinai Hospital',
-                  location: 'New York, USA',
-                  flag: '🇺🇸',
-                },
-                {
-                  name: 'Queen Elizabeth Hospital',
-                  location: 'Birmingham, UK',
-                  flag: '🇬🇧',
-                },
-                {
-                  name: 'University Hospital Lozenetz',
-                  location: 'Sofia — Current Practice',
-                  flag: '🇧🇬',
-                },
-              ].map((inst, i) => (
-                <FloatingCard
-                  key={inst.name}
-                  delay={i * 0.1}
-                  className='group rounded-3xl border border-white/[0.08] bg-white/[0.06] p-8 backdrop-blur-sm transition hover:border-[#52B788]/25 hover:bg-white/[0.1]'
-                >
-                  <div className='mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#52B788]/15'>
-                    <span className='text-2xl leading-none'>{inst.flag}</span>
-                  </div>
-                  <h3
-                    className='text-lg text-white'
-                    style={{ fontFamily: 'var(--font-raleway), sans-serif' }}
+              {aboutHospitals.map((inst, i) => {
+                const flags = [
+                  'https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1fa-1f1f8.svg',
+                  'https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1ec-1f1e7.svg',
+                  'https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f1e7-1f1ec.svg',
+                ];
+                return (
+                  <FloatingCard
+                    key={inst.name}
+                    delay={i * 0.1}
+                    className='group rounded-3xl border border-white/[0.08] bg-white/[0.06] p-8 backdrop-blur-sm transition hover:border-[#52B788]/25 hover:bg-white/[0.1]'
                   >
-                    {inst.name}
-                  </h3>
-                  <p className='mt-2 text-sm text-white/55'>{inst.location}</p>
-                </FloatingCard>
-              ))}
+                    <div className='mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#52B788]/15'>
+                      <img src={flags[i]} alt='' className='h-7 w-7' />
+                    </div>
+                    <h3
+                      className='text-lg text-white'
+                      style={{ fontFamily: 'var(--font-raleway), sans-serif' }}
+                    >
+                      {inst.name}
+                    </h3>
+                    <p className='mt-2 text-sm text-white/55'>
+                      {inst.location}
+                    </p>
+                  </FloatingCard>
+                );
+              })}
             </div>
 
             <motion.p
@@ -697,7 +784,7 @@ export default function MarketingDesign2() {
               viewport={{ once: true }}
               className='mx-auto mt-12 max-w-2xl text-center text-lg leading-relaxed text-white/45'
             >
-              Global exposure. European standards. Personal attention.
+              {about('tagline')}
             </motion.p>
           </div>
         </RevealSection>
@@ -708,34 +795,35 @@ export default function MarketingDesign2() {
             <div className='grid gap-12 lg:grid-cols-2 lg:gap-16'>
               <div>
                 <span className='mb-3 inline-block rounded-full bg-[#52B788]/15 px-4 py-1.5 text-xs font-medium tracking-wide uppercase text-[#52B788]'>
-                  International Patients
+                  {patients('badge')}
                 </span>
                 <h2
                   className='mt-4 text-3xl text-white md:text-4xl lg:text-5xl'
                   style={{ fontFamily: 'var(--font-raleway), sans-serif' }}
                 >
-                  Living in Bulgaria,
+                  {patients('heading1')}
                   <br />
-                  thinking in{' '}
-                  <span className='italic text-[#52B788]'>English?</span>
+                  {patients('heading2')}{' '}
+                  <span className='italic text-[#52B788]'>
+                    {patients('headingAccent')}
+                  </span>
                 </h2>
                 <p className='mt-6 max-w-md text-base leading-relaxed text-white/60'>
-                  You don't need translation. You don't need confusion. You need
-                  a surgeon who understands both medicine and your language.
+                  {patients('description')}
                 </p>
                 <p className='mt-6 text-sm font-medium text-[#52B788]'>
-                  Consultations in fluent English and Greek.
+                  {patients('languages')}
                 </p>
               </div>
 
               <div className='grid grid-cols-2 gap-3 sm:grid-cols-3'>
                 {[
-                  { label: 'Expats', icon: Globe },
-                  { label: 'Diplomats', icon: Shield },
-                  { label: 'Professionals', icon: Award },
-                  { label: 'Students', icon: GraduationCap },
-                  { label: 'Travelers', icon: MapPin },
-                  { label: 'Families', icon: Users },
+                  { label: patientCategories[0], icon: Globe },
+                  { label: patientCategories[1], icon: Shield },
+                  { label: patientCategories[2], icon: Award },
+                  { label: patientCategories[3], icon: GraduationCap },
+                  { label: patientCategories[4], icon: MapPin },
+                  { label: patientCategories[5], icon: Users },
                 ].map((item, i) => (
                   <motion.div
                     key={item.label}
@@ -765,74 +853,55 @@ export default function MarketingDesign2() {
           <div className='mx-auto max-w-6xl'>
             <div className='mb-16 max-w-2xl'>
               <span className='mb-3 inline-block rounded-full bg-[#2D6A4F]/8 px-4 py-1.5 text-xs font-medium tracking-wide uppercase text-[#2D6A4F]'>
-                Approach
+                {approach('badge')}
               </span>
               <h2
                 className='mt-4 text-3xl md:text-5xl'
                 style={{ fontFamily: 'var(--font-raleway), sans-serif' }}
               >
-                A different type of
+                {approach('heading1')}
                 <br />
-                surgical{' '}
-                <span className='italic text-[#2D6A4F]'>consultation.</span>
+                {approach('heading2')}{' '}
+                <span className='italic text-[#2D6A4F]'>
+                  {approach('headingAccent')}
+                </span>
               </h2>
             </div>
 
             <div className='space-y-3'>
               {[
-                {
-                  title: 'Evidence-based assessment',
-                  desc: 'Grounded in current surgical evidence, not outdated protocols.',
-                  icon: Diagnostics,
-                  num: '01',
-                },
-                {
-                  title: 'Modern surgical reasoning',
-                  desc: 'Contemporary thinking that reflects the latest standards.',
-                  icon: ArtificialIntelligence,
-                  num: '02',
-                },
-                {
-                  title: 'Transparent discussion',
-                  desc: 'Open conversation about options, risks, and outcomes.',
-                  icon: Communication,
-                  num: '03',
-                },
-                {
-                  title: 'Conservative when appropriate',
-                  desc: "Non-operative management when it's the right path.",
-                  icon: PalliativeCare,
-                  num: '04',
-                },
-                {
-                  title: 'Precise when necessary',
-                  desc: 'Surgical intervention executed with care and precision.',
-                  icon: GeneralSurgery,
-                  num: '05',
-                },
-              ].map((item, i) => (
-                <FloatingCard
-                  key={item.title}
-                  delay={i * 0.08}
-                  className='group flex items-center gap-6 rounded-2xl border border-[#1A1A1A]/[0.05] bg-white/70 p-6 transition hover:border-[#2D6A4F]/15 hover:shadow-lg hover:shadow-[#2D6A4F]/5 md:gap-8 md:p-8'
-                >
-                  <span
-                    className='text-3xl font-semibold text-[#2D6A4F]/70 md:text-4xl'
-                    style={{ fontFamily: 'var(--font-raleway), sans-serif' }}
+                Diagnostics,
+                ArtificialIntelligence,
+                Communication,
+                PalliativeCare,
+                GeneralSurgery,
+              ].map((StepIcon, i) => {
+                const step = approachSteps[i];
+                const num = `0${i + 1}`;
+                return (
+                  <FloatingCard
+                    key={step.title}
+                    delay={i * 0.08}
+                    className='group flex items-center gap-6 rounded-2xl border border-[#1A1A1A]/[0.05] bg-white/70 p-6 transition hover:border-[#2D6A4F]/15 hover:shadow-lg hover:shadow-[#2D6A4F]/5 md:gap-8 md:p-8'
                   >
-                    {item.num}
-                  </span>
-                  <div className='flex-1'>
-                    <h3 className='text-lg font-medium md:text-xl'>
-                      {item.title}
-                    </h3>
-                    <p className='mt-1 text-sm text-[#1A1A1A]/55'>
-                      {item.desc}
-                    </p>
-                  </div>
-                  <item.icon className='hidden h-7 w-7 text-[#2D6A4F]/70 transition group-hover:text-[#2D6A4F] md:block' />
-                </FloatingCard>
-              ))}
+                    <span
+                      className='text-3xl font-semibold text-[#2D6A4F]/70 md:text-4xl'
+                      style={{ fontFamily: 'var(--font-raleway), sans-serif' }}
+                    >
+                      {num}
+                    </span>
+                    <div className='flex-1'>
+                      <h3 className='text-lg font-medium md:text-xl'>
+                        {step.title}
+                      </h3>
+                      <p className='mt-1 text-sm text-[#1A1A1A]/55'>
+                        {step.desc}
+                      </p>
+                    </div>
+                    <StepIcon className='hidden h-7 w-7 text-[#2D6A4F]/70 transition group-hover:text-[#2D6A4F] md:block' />
+                  </FloatingCard>
+                );
+              })}
             </div>
 
             {/* ── Prominent Quote with geometric clipart ── */}
@@ -939,11 +1008,13 @@ export default function MarketingDesign2() {
                   className='-mt-6 max-w-2xl text-2xl font-medium leading-relaxed text-[#1A1A1A]/75 md:text-3xl lg:text-4xl'
                   style={{ fontFamily: 'var(--font-raleway), sans-serif' }}
                 >
-                  No unnecessary drama.
+                  {approach('quote1')}
                   <br />
-                  No exaggerated promises.
+                  {approach('quote2')}
                   <br />
-                  <span className='italic text-[#2D6A4F]'>Just precision.</span>
+                  <span className='italic text-[#2D6A4F]'>
+                    {approach('quoteAccent')}
+                  </span>
                 </p>
                 {/* Thin separator line */}
                 <div className='mt-2 h-px w-16 bg-[#2D6A4F]/20' />
@@ -1078,32 +1149,28 @@ export default function MarketingDesign2() {
             <div className='grid gap-12 lg:grid-cols-5 lg:gap-8'>
               <div className='lg:col-span-3'>
                 <span className='mb-3 inline-block rounded-full bg-[#C9BFA7]/15 px-4 py-1.5 text-xs font-medium tracking-widest uppercase text-[#C9BFA7]'>
-                  Academic
+                  {academic('badge')}
                 </span>
                 <h2
                   className='mt-4 text-4xl font-bold text-white md:text-5xl lg:text-6xl'
                   style={{ fontFamily: 'var(--font-raleway), sans-serif' }}
                 >
-                  For students &
+                  {academic('heading1')}
                   <br />
-                  young{' '}
+                  {academic('heading2')}{' '}
                   <span
                     className='italic text-[#C9BFA7]'
                     style={{ textShadow: '0 0 40px rgba(201,191,167,0.3)' }}
                   >
-                    doctors.
+                    {academic('headingAccent')}
                   </span>
                 </h2>
                 <p className='mt-6 max-w-md text-base leading-relaxed text-white/55'>
-                  Surgery is not learned from textbooks alone. Dr. Pakataridis
-                  is a Surgical Simulation Educator and active researcher.
+                  {academic('description')}
                 </p>
 
                 <div className='mt-8 space-y-3'>
-                  {[
-                    'Society of American Gastrointestinal and Endoscopic Surgeons',
-                    'American College of Surgeons',
-                  ].map((org, i) => (
+                  {academicOrgs.map((org, i) => (
                     <motion.div
                       key={org}
                       initial={{ opacity: 0, x: -15 }}
@@ -1125,15 +1192,10 @@ export default function MarketingDesign2() {
                   style={{ background: 'oklch(0.2178 0 0)' }}
                 >
                   <p className='mb-5 text-xs font-medium tracking-wider uppercase text-white/35'>
-                    If you are serious about
+                    {academic('sidebarTitle')}
                   </p>
                   <div className='space-y-3'>
-                    {[
-                      'Research',
-                      'Publications',
-                      'Technical growth',
-                      'Academic career',
-                    ].map((item, i) => (
+                    {academicSidebarItems.map((item, i) => (
                       <motion.div
                         key={item}
                         initial={{ opacity: 0, x: 20, scale: 0.95 }}
@@ -1171,7 +1233,7 @@ export default function MarketingDesign2() {
                     className='mt-6 text-base italic text-[#C9BFA7]/55'
                     style={{ fontFamily: 'var(--font-raleway), sans-serif' }}
                   >
-                    You will not get shortcuts. You will get structure.
+                    {academic('sidebarQuote')}
                   </motion.p>
                 </div>
               </div>
@@ -1204,10 +1266,10 @@ export default function MarketingDesign2() {
                   className='text-3xl text-white md:text-5xl lg:text-6xl'
                   style={{ fontFamily: 'var(--font-raleway), sans-serif' }}
                 >
-                  The Philosophy
+                  {philosophy('heading')}
                 </h2>
                 <p className='mx-auto mt-6 max-w-xl text-lg text-white/50'>
-                  Modern surgery is not only about operating. It is about:
+                  {philosophy('description')}
                 </p>
 
                 {/* Git chain */}
@@ -1218,44 +1280,42 @@ export default function MarketingDesign2() {
                     style={{ bottom: '50px' }}
                   />
 
-                  {['Judgment', 'Timing', 'Preparation', 'Execution'].map(
-                    (word, i) => (
-                      <motion.div
-                        key={word}
-                        initial={{ opacity: 0, x: -10 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{
-                          delay: i * 0.15,
-                          type: 'spring',
-                          stiffness: 100,
-                        }}
-                        className={`flex items-center gap-4 ${i > 0 ? 'mt-6 md:mt-8' : ''}`}
-                      >
-                        {/* Dot — fixed 20px column */}
-                        <div className='relative z-10 flex h-5 w-5 shrink-0 items-center justify-center'>
-                          <div
-                            className='absolute h-5 w-5 rounded-full border-2 border-[#C9BFA7]/50'
-                            style={{
-                              background: 'oklch(0.2178 0 0)',
-                              animation: 'dotPulse 3s ease-in-out infinite',
-                              animationDelay: `${i * 0.4}s`,
-                            }}
-                          />
-                          <div className='relative h-2.5 w-2.5 rounded-full bg-[#C9BFA7]' />
-                        </div>
-                        {/* Label */}
-                        <span
-                          className='text-xl text-white/80 md:text-2xl'
+                  {philosophyItems.map((word, i) => (
+                    <motion.div
+                      key={word}
+                      initial={{ opacity: 0, x: -10 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{
+                        delay: i * 0.15,
+                        type: 'spring',
+                        stiffness: 100,
+                      }}
+                      className={`flex items-center gap-4 ${i > 0 ? 'mt-6 md:mt-8' : ''}`}
+                    >
+                      {/* Dot — fixed 20px column */}
+                      <div className='relative z-10 flex h-5 w-5 shrink-0 items-center justify-center'>
+                        <div
+                          className='absolute h-5 w-5 rounded-full border-2 border-[#C9BFA7]/50'
                           style={{
-                            fontFamily: 'var(--font-raleway), sans-serif',
+                            background: 'oklch(0.2178 0 0)',
+                            animation: 'dotPulse 3s ease-in-out infinite',
+                            animationDelay: `${i * 0.4}s`,
                           }}
-                        >
-                          {word}
-                        </span>
-                      </motion.div>
-                    ),
-                  )}
+                        />
+                        <div className='relative h-2.5 w-2.5 rounded-full bg-[#C9BFA7]' />
+                      </div>
+                      {/* Label */}
+                      <span
+                        className='text-xl text-white/80 md:text-2xl'
+                        style={{
+                          fontFamily: 'var(--font-raleway), sans-serif',
+                        }}
+                      >
+                        {word}
+                      </span>
+                    </motion.div>
+                  ))}
 
                   {/* Final merge commit — the quote */}
                   <motion.div
@@ -1274,7 +1334,7 @@ export default function MarketingDesign2() {
                       className='text-base font-medium italic text-[#C9BFA7] md:text-lg lg:text-xl'
                       style={{ fontFamily: 'var(--font-raleway), sans-serif' }}
                     >
-                      And knowing when not to operate.
+                      {philosophy('mergeQuote')}
                     </p>
                   </motion.div>
                 </div>
@@ -1290,18 +1350,19 @@ export default function MarketingDesign2() {
           <div className='mx-auto max-w-6xl'>
             <div className='text-center'>
               <span className='mb-3 inline-block rounded-full bg-[#52B788]/15 px-4 py-1.5 text-xs font-medium tracking-wide uppercase text-[#52B788]'>
-                Get in Touch
+                {contact('badge')}
               </span>
               <h2
                 className='mt-4 text-3xl text-white md:text-5xl'
                 style={{ fontFamily: 'var(--font-raleway), sans-serif' }}
               >
-                Book a{' '}
-                <span className='italic text-[#52B788]'>consultation.</span>
+                {contact('heading')}{' '}
+                <span className='italic text-[#52B788]'>
+                  {contact('headingAccent')}
+                </span>
               </h2>
               <p className='mx-auto mt-6 max-w-lg text-lg text-white/60'>
-                For patients, professionals, and those who expect more than
-                routine care.
+                {contact('description')}
               </p>
             </div>
 
@@ -1312,17 +1373,17 @@ export default function MarketingDesign2() {
             <div className='mt-8 flex flex-wrap items-center justify-center gap-6 text-sm text-white/45'>
               <div className='flex items-center gap-2'>
                 <Clock className='h-4 w-4 text-white/50' />
-                Structured evaluation
+                {contact('infoEvaluation')}
               </div>
               <div className='h-4 w-px bg-white/15' />
               <div className='flex items-center gap-2'>
                 <Globe className='h-4 w-4 text-white/50' />
-                English & Greek
+                {contact('infoLanguages')}
               </div>
               <div className='h-4 w-px bg-white/15' />
               <div className='flex items-center gap-2'>
                 <MapPin className='h-4 w-4 text-white/50' />
-                Sofia, Bulgaria
+                {contact('infoLocation')}
               </div>
             </div>
           </div>
@@ -1335,12 +1396,10 @@ export default function MarketingDesign2() {
               <div className='flex h-8 w-8 items-center justify-center rounded-full bg-[#2D6A4F]'>
                 <Stethoscope className='h-3.5 w-3.5 text-white' />
               </div>
-              <span className='text-sm text-white/60'>
-                Dr. Paraskevas Pakataridis, MD
-              </span>
+              <span className='text-sm text-white/60'>{footer('name')}</span>
             </div>
             <p className='text-xs text-white/35'>
-              General Surgery · Sofia · © {new Date().getFullYear()}
+              {footer('copyright')} {new Date().getFullYear()}
             </p>
           </div>
         </footer>
