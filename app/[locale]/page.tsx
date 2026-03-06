@@ -475,6 +475,8 @@ function ConsultationCard() {
    ══════════════════════════════════════════════════ */
 export default function MarketingDesign2() {
   const locale = useLocale();
+  const router = useRouter();
+  const pathname = usePathname();
   const nav = useTranslations('Nav');
   const hero = useTranslations('Hero');
   const ribbon = useTranslations('CurvedRibbon');
@@ -609,8 +611,9 @@ export default function MarketingDesign2() {
                       : 'text-[#1A1A1A]/60 hover:text-[#1A1A1A]'
                   }`}
                   onClick={() => {
-                    window.location.href =
-                      item.code === 'en' ? '/' : `/${item.code}`;
+                    router.replace(pathname, {
+                      locale: item.code as 'en' | 'el' | 'bg',
+                    });
                   }}
                 >
                   <img
@@ -689,7 +692,7 @@ export default function MarketingDesign2() {
                 whileTap={{ scale: 0.97 }}
                 className='group inline-flex items-center gap-3 rounded-full bg-[#2D6A4F] px-8 py-4 text-sm font-medium text-white shadow-lg shadow-[#2D6A4F]/20 transition hover:bg-[#245A42]'
               >
-                Book a Consultation
+                {hero('ctaBook')}
                 <ArrowRight className='h-4 w-4 transition-transform group-hover:translate-x-1' />
               </motion.a>
               <a
