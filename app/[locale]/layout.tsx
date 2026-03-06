@@ -79,11 +79,57 @@ const nunitoSans = Nunito_Sans({
   variable: '--font-nunito-sans',
 });
 
-export const metadata: Metadata = {
-  title: 'Dr. Paraskevas Pakataridis, MD — General Surgery, Sofia',
-  description:
-    'International perspective. Local care. General surgery consultations in Sofia with Dr. Paraskevas Pakataridis.',
+const siteUrl = 'https://pakataridis.com';
+
+const metaByLocale: Record<string, { title: string; description: string }> = {
+  en: {
+    title: 'Dr. Paraskevas Pakataridis, MD — General Surgery, Sofia',
+    description:
+      'International perspective. Local care. General surgery consultations in Sofia with Dr. Paraskevas Pakataridis.',
+  },
+  el: {
+    title: 'Δρ. Παρασκευάς Πακαταρίδης — Γενική Χειρουργική, Σόφια',
+    description:
+      'Διεθνής εμπειρία. Τοπική φροντίδα. Χειρουργικές συμβουλευτικές στη Σόφια με τον Δρ. Παρασκευά Πακαταρίδη.',
+  },
+  bg: {
+    title: 'Д-р Параскевас Пакатаридис — Обща хирургия, София',
+    description:
+      'Международна перспектива. Местна грижа. Хирургични консултации в София с д-р Параскевас Пакатаридис.',
+  },
 };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const meta = metaByLocale[locale] ?? metaByLocale.en;
+
+  return {
+    title: meta.title,
+    description: meta.description,
+    alternates: {
+      canonical: locale === 'en' ? siteUrl : `${siteUrl}/${locale}`,
+      languages: {
+        en: siteUrl,
+        el: `${siteUrl}/el`,
+        bg: `${siteUrl}/bg`,
+      },
+    },
+    openGraph: {
+      title: meta.title,
+      description: meta.description,
+      locale: locale === 'el' ? 'el_GR' : locale === 'bg' ? 'bg_BG' : 'en_GB',
+      alternateLocale: ['en_GB', 'el_GR', 'bg_BG'].filter(
+        (l) =>
+          l !==
+          (locale === 'el' ? 'el_GR' : locale === 'bg' ? 'bg_BG' : 'en_GB'),
+      ),
+    },
+  };
+}
 
 export default async function RootLayout({
   children,
