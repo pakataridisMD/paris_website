@@ -503,7 +503,7 @@ export default function MarketingDesign2() {
   const academicSidebarItems = academic.raw('sidebarItems') as string[];
   const philosophyItems = philosophy.raw('items') as string[];
   return (
-    <div
+    <main
       className='min-h-screen overflow-x-hidden'
       style={{
         fontFamily:
@@ -529,7 +529,10 @@ export default function MarketingDesign2() {
       `}</style>
 
       {/* ── NAVIGATION ── */}
-      <nav className='fixed top-0 left-0 right-0 z-50'>
+      <nav
+        className='fixed top-0 left-0 right-0 z-50'
+        aria-label='Main navigation'
+      >
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -537,8 +540,14 @@ export default function MarketingDesign2() {
           className='mx-auto flex max-w-7xl items-center justify-between px-6 py-4 md:px-10'
         >
           <div className='flex items-center gap-3 rounded-full border border-[#1A1A1A]/[0.06] bg-[#FAF7F2]/80 px-5 py-2.5 backdrop-blur-xl'>
-            <div className='flex h-7 w-7 items-center justify-center rounded-full bg-[#2D6A4F]'>
-              <Stethoscope className='h-3.5 w-3.5 text-white' />
+            <div className='flex h-7 w-7 items-center justify-center overflow-hidden'>
+              <Image
+                src='/logo-light.svg'
+                alt='Dr. Pakataridis logo'
+                width={28}
+                height={28}
+                className='h-7 w-7'
+              />
             </div>
             <span
               className='text-sm font-medium tracking-wide'
@@ -618,7 +627,7 @@ export default function MarketingDesign2() {
                 >
                   <img
                     src={item.flag}
-                    alt=''
+                    alt={`${item.label === 'EN' ? 'British' : item.label === 'EL' ? 'Greek' : 'Bulgarian'} flag`}
                     className='h-5 w-5 rounded-full object-cover'
                     style={{ boxShadow: '0 0 0 1px rgba(0,0,0,0.06)' }}
                   />
@@ -1407,6 +1416,6 @@ export default function MarketingDesign2() {
           </div>
         </footer>
       </div>
-    </div>
+    </main>
   );
 }

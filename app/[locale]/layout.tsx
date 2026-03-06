@@ -1,4 +1,5 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
+import JsonLd from './json-ld';
 import {
   Geist,
   Geist_Mono,
@@ -81,6 +82,43 @@ const nunitoSans = Nunito_Sans({
 
 const siteUrl = 'https://pakataridis.com';
 
+const keywordsByLocale: Record<string, string[]> = {
+  en: [
+    'general surgery Sofia',
+    'English speaking doctor Sofia',
+    'surgeon Bulgaria',
+    'Dr Pakataridis',
+    'surgical consultation Sofia',
+    'expat doctor Sofia',
+    'international surgeon Bulgaria',
+    'second opinion surgery',
+    'laparoscopic surgery Sofia',
+    'hernia surgery Sofia',
+  ],
+  el: [
+    'γενική χειρουργική Σόφια',
+    'Έλληνας γιατρός Σόφια',
+    'χειρουργός Βουλγαρία',
+    'Δρ Πακαταρίδης',
+    'χειρουργική συμβουλευτική',
+    'λαπαροσκοπική χειρουργική',
+  ],
+  bg: [
+    'обща хирургия София',
+    'хирург София',
+    'д-р Пакатаридис',
+    'хирургична консултация',
+    'лапароскопска хирургия София',
+    'университетска болница Лозенец',
+  ],
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: '#2D6A4F',
+};
+
 const metaByLocale: Record<string, { title: string; description: string }> = {
   en: {
     title: 'Dr. Paraskevas Pakataridis, MD — General Surgery, Sofia',
@@ -107,11 +145,28 @@ export async function generateMetadata({
   const { locale } = await params;
   const meta = metaByLocale[locale] ?? metaByLocale.en;
 
+  const canonicalUrl = locale === 'en' ? siteUrl : `${siteUrl}/${locale}`;
+  const ogLocale =
+    locale === 'el' ? 'el_GR' : locale === 'bg' ? 'bg_BG' : 'en_GB';
+
   return {
+    metadataBase: new URL(siteUrl),
     title: meta.title,
     description: meta.description,
+    keywords: keywordsByLocale[locale] ?? keywordsByLocale.en,
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        'index': true,
+        'follow': true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large' as const,
+        'max-snippet': -1,
+      },
+    },
     alternates: {
-      canonical: locale === 'en' ? siteUrl : `${siteUrl}/${locale}`,
+      canonical: canonicalUrl,
       languages: {
         en: siteUrl,
         el: `${siteUrl}/el`,
@@ -119,14 +174,29 @@ export async function generateMetadata({
       },
     },
     openGraph: {
+      type: 'website',
+      url: canonicalUrl,
+      siteName: 'Dr. Pakataridis',
       title: meta.title,
       description: meta.description,
-      locale: locale === 'el' ? 'el_GR' : locale === 'bg' ? 'bg_BG' : 'en_GB',
+      locale: ogLocale,
       alternateLocale: ['en_GB', 'el_GR', 'bg_BG'].filter(
-        (l) =>
-          l !==
-          (locale === 'el' ? 'el_GR' : locale === 'bg' ? 'bg_BG' : 'en_GB'),
+        (l) => l !== ogLocale,
       ),
+      images: [
+        {
+          url: '/og-image.jpg',
+          width: 1200,
+          height: 630,
+          alt: meta.title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: meta.title,
+      description: meta.description,
+      images: ['/og-image.jpg'],
     },
   };
 }
@@ -159,6 +229,7 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <JsonLd locale={locale} />
         <NextIntlClientProvider messages={messages}>
           {children}
         </NextIntlClientProvider>
