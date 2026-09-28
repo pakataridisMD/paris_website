@@ -1,140 +1,216 @@
 {
+  "Meta": {
+    "home": {
+      "title": "Dr. Paraskevas Pakataridis, MD — Physician, Educator, Entrepreneur",
+      "description": "Personal physician, former Assistant Professor of Surgery and entrepreneur, based in Greece. Medical consultations, research mentoring and business projects."
+    },
+    "business": {
+      "title": "Business — Dr. Paraskevas Pakataridis",
+      "description": "Open to ventures, partnerships and new opportunities."
+    },
+    "medicine": {
+      "title": "Medicine — Dr. Paraskevas Pakataridis",
+      "description": "Your personal physician in Greece, for anything you need. Consultations in English and Greek."
+    },
+    "education": {
+      "title": "Education — Dr. Paraskevas Pakataridis",
+      "description": "Former Assistant Professor of Surgery. Research, publishing and mentoring for students and young doctors."
+    },
+    "privacy": {
+      "title": "Privacy notice — Dr. Paraskevas Pakataridis",
+      "description": "How personal data submitted through this website is collected, used and protected."
+    }
+  },
   "Nav": {
-    "brand": "Dr. Pakataridis",
-    "about": "About",
-    "patients": "Patients",
-    "approach": "Approach",
-    "academic": "Academic",
-    "contact": "Contact",
-    "book": "Book"
+    "business": "Business",
+    "medicine": "Medicine",
+    "education": "Education",
+    "contact": "Appointments",
+    "menu": "Menu",
+    "close": "Close",
+    "home": "Home"
   },
-  "Hero": {
-    "badge": "General Surgery · Sofia",
-    "headingPrefix": "For those who want",
-    "words": ["clarity", "precision", "answers", "confidence"],
-    "subtitle": "Dr. Paraskevas Pakataridis, MD — international surgical expertise with personal attention.",
-    "ctaBook": "Book a Consultation",
-    "ctaLearn": "Learn more"
-  },
-  "CurvedRibbon": {
-    "words": "Clarity  ·  Precision  ·  Evidence  ·  Judgment  ·  Timing  ·  Preparation  ·  Execution  ·  Transparency  ·  "
-  },
-  "About": {
-    "badge": "Background",
-    "heading": "International perspective.",
-    "headingAccent": "Local care.",
-    "description": "Clinical experience shaped within institutions that defined modern surgical standards.",
-    "hospitals": [
-      { "name": "The Mount Sinai Hospital", "location": "New York, USA" },
-      { "name": "Queen Elizabeth Hospital", "location": "Birmingham, UK" },
-      {
-        "name": "University Hospital Lozenetz",
-        "location": "Sofia — Current Practice"
-      }
+  "Home": {
+    "eyebrow": "Physician · Educator · Entrepreneur",
+    "firstName": "Paraskevas",
+    "lastName": "Pakataridis",
+    "statement": "One standard across medicine, business and education: discretion, precision and a personal commitment to every person I work with.",
+    "based": "Based in Greece · Working internationally",
+    "cta": "Request an appointment",
+    "scroll": "Scroll",
+    "portraitAlt": "Dr. Paraskevas Pakataridis",
+    "practicesLabel": "Practice",
+    "practicesHeading": "Three disciplines.",
+    "practicesHeadingAccent": "One standard.",
+    "practices": {
+      "business": { "title": "Business", "desc": "Open to opportunity." },
+      "medicine": { "title": "Medicine", "desc": "Your personal physician." },
+      "education": { "title": "Education", "desc": "Research, teaching and publishing." }
+    },
+    "principlesLabel": "Principles",
+    "principlesText": "Whether it concerns your health, your career or an opportunity worth exploring, you deal directly with me. No intermediaries, no noise.",
+    "principles": [
+      { "title": "Discretion", "desc": "What you share stays between us." },
+      { "title": "Precision", "desc": "Clear answers, grounded in evidence." },
+      { "title": "Commitment", "desc": "Personal attention from the first call to the final decision." }
     ],
-    "tagline": "Global exposure. European standards. Personal attention."
+    "appointment": "By appointment.",
+    "appointmentText": "Consultations and meetings are arranged personally."
   },
-  "Patients": {
-    "badge": "International Patients",
-    "heading1": "Living in Bulgaria,",
-    "heading2": "thinking in",
-    "headingAccent": "English?",
-    "description": "You don't need translation. You don't need confusion. You need a physician who understands both medicine and your language.",
-    "languages": "Consultations in fluent English and Greek.",
-    "categories": [
-      "Expats",
-      "Diplomats",
-      "Professionals",
-      "Students",
-      "Travelers",
-      "Families"
-    ]
+  "Page": {
+    "next": "Next"
   },
-  "Approach": {
-    "badge": "Approach",
-    "heading1": "A different type of",
-    "heading2": "surgical",
-    "headingAccent": "consultation.",
-    "steps": [
-      {
-        "title": "Evidence-based assessment",
-        "desc": "Grounded in current surgical evidence, not outdated protocols."
-      },
-      {
-        "title": "Modern surgical reasoning",
-        "desc": "Contemporary thinking that reflects the latest standards."
-      },
-      {
-        "title": "Transparent discussion",
-        "desc": "Open conversation about options, risks, and outcomes."
-      },
-      {
-        "title": "Conservative when appropriate",
-        "desc": "Non-operative management when it's the right path."
-      },
-      {
-        "title": "Precise when necessary",
-        "desc": "Surgical intervention executed with care and precision."
-      }
+  "Business": {
+    "label": "Business",
+    "heading": "Open to",
+    "headingAccent": "opportunity.",
+    "intro": "Ventures, partnerships and ideas worth building. Considered selectively, discussed in confidence.",
+    "photoCaption": "Institutional meetings",
+    "credo": ["The right idea.", "The right people.", "The right time."],
+    "ctaLabel": "Introductions",
+    "ctaHeading": "Worth a conversation?",
+    "ctaText": "Every opportunity is considered personally and in confidence.",
+    "cta": "Start a conversation"
+  },
+  "Medicine": {
+    "label": "Medicine",
+    "heading": "Your personal physician.",
+    "headingAccent": "For anything you need.",
+    "intro": "Care that starts with a conversation. From a first concern to a second opinion, you get a doctor who listens, explains clearly and stays with you.",
+    "points": ["Personal consultations", "Second opinions", "Specialist referrals", "Care coordination"],
+    "about": "Medical doctor with international clinical experience in New York and the United Kingdom. Now based in Greece.",
+    "contactTitle": "Get in touch",
+    "location": "Location",
+    "locationValue": "Greece",
+    "languages": "Languages",
+    "languagesValue": "English · Ελληνικά",
+    "appointments": "Appointments",
+    "appointmentsValue": "By request",
+    "phone": "Phone",
+    "cta": "Request an appointment"
+  },
+  "Education": {
+    "label": "Education",
+    "eyebrow": "Former Assistant Professor of Surgery",
+    "heading": "Teaching the next",
+    "headingAccent": "generation of doctors.",
+    "intro": "Academic physician, researcher and simulation educator. I teach students and young doctors how to think clinically, how to do research properly and how to get it published.",
+    "photos": {
+      "summit": "ACS Surgical Simulation Summit 2025, Chicago",
+      "talk": "Surgeons & Engineers 2025, Chicago",
+      "teaching": "Simulation teaching"
+    },
+    "featuredTag": "Featured research",
+    "featuredTitle": "Low-Cost Biodegradable 3D-Printed Laparoscopic Simulator: A Sustainable Alternative for Surgical Training",
+    "featuredVenue": "2025 ACS Surgical Simulation Summit · Chicago",
+    "offersTitle": "What I teach",
+    "offers": [
+      { "title": "Research, done properly", "desc": "Choosing a question worth asking, designing the study and handling the data correctly." },
+      { "title": "Writing & publishing", "desc": "Structuring a manuscript, choosing the right journal and answering reviewers." },
+      { "title": "Clinical skills & simulation", "desc": "Hands-on simulation training for students and young doctors." },
+      { "title": "Academic career", "desc": "Conferences, presentations, your CV and the next step in your career." }
     ],
-    "quote1": "No unnecessary drama.",
-    "quote2": "No exaggerated promises.",
-    "quoteAccent": "Just precision."
-  },
-  "Academic": {
-    "badge": "Academic",
-    "heading1": "For students &",
-    "heading2": "young",
-    "headingAccent": "doctors.",
-    "description": "Surgery is not learned from textbooks alone. Dr. Pakataridis is a Surgical Simulation Educator and active researcher.",
-    "organizations": [
-      "Society of American Gastrointestinal and Endoscopic Surgeons",
-      "American College of Surgeons"
+    "trainingTitle": "Clinical experience",
+    "training": [
+      { "name": "The Mount Sinai Hospital", "place": "New York" },
+      { "name": "Queen Elizabeth Hospital", "place": "Birmingham" }
     ],
-    "sidebarTitle": "If you are serious about",
-    "sidebarItems": [
-      "Research",
-      "Publications",
-      "Technical growth",
-      "Academic career"
+    "membershipsTitle": "Memberships",
+    "memberships": [
+      "American College of Surgeons",
+      "Society of American Gastrointestinal and Endoscopic Surgeons"
     ],
-    "sidebarQuote": "You will not get shortcuts. You will get structure."
-  },
-  "Philosophy": {
-    "heading": "The Philosophy",
-    "description": "Modern surgery is not only about operating. It is about:",
-    "items": ["Judgment", "Timing", "Preparation", "Execution"],
-    "mergeQuote": "And knowing when not to operate."
+    "ctaHeading": "Serious about research?",
+    "ctaText": "You will not get shortcuts. You will get structure. Mentoring for students and young doctors who want to publish.",
+    "cta": "Ask about mentoring"
   },
   "Contact": {
-    "badge": "Get in Touch",
-    "heading": "Book a",
-    "headingAccent": "consultation.",
-    "description": "For patients, professionals, and those who expect more than routine care.",
-    "cardTitle": "Book a Consultation",
-    "cardDescription": "In-person at University Hospital Lozenetz, Sofia, or an online second opinion — available internationally.",
-    "cardCta": "Get Started",
-    "dialogTitle": "Book a Consultation",
-    "dialogDescription": "Fill in your details and describe your enquiry.",
-    "labelName": "Full Name",
+    "eyebrow": "Appointments",
+    "title": "Request an appointment",
+    "description": "Share a few details about your enquiry. Every request is reviewed personally and answered directly.",
+    "topicLabel": "Regarding",
+    "topics": {
+      "medical": "Medical",
+      "academic": "Mentoring",
+      "business": "Business",
+      "other": "Other"
+    },
+    "labelName": "Full name",
     "labelEmail": "Email",
     "labelPhone": "Phone",
-    "labelPhoneOptional": "(optional)",
-    "labelMessage": "Your Enquiry",
-    "placeholderName": "Your name",
-    "placeholderEmail": "you@email.com",
-    "placeholderPhone": "+359 ...",
-    "placeholderMessage": "Briefly describe your medical concern or question...",
+    "labelOptional": "optional",
+    "labelMessage": "Your enquiry",
+    "placeholderName": "Your full name",
+    "placeholderEmail": "you@example.com",
+    "placeholderPhone": "+30 ...",
+    "placeholderMessage": "Briefly describe how I can help. Please do not include detailed medical records.",
+    "consent": "I agree that my details are used solely to respond to this request, as described in the",
+    "consentLink": "privacy notice",
+    "emergency": "For medical emergencies, call 112.",
     "submitSending": "Sending...",
-    "submitButton": "Send Enquiry",
-    "successTitle": "Message sent",
-    "successMessage": "Dr. Pakataridis will review your enquiry and respond shortly.",
-    "infoEvaluation": "Structured evaluation",
-    "infoLanguages": "English & Greek",
-    "infoLocation": "Sofia, Bulgaria"
+    "submitButton": "Send request",
+    "successTitle": "Request received.",
+    "successMessage": "Thank you. I will review your request and reply to you personally.",
+    "close": "Close",
+    "errorGeneric": "Your request could not be sent. Please try again in a moment."
   },
   "Footer": {
+    "heading": "Let's talk.",
+    "appointmentsLabel": "Appointments",
+    "appointmentsText": "By request only. Share a few details and I will reply personally.",
+    "cta": "Request an appointment",
+    "privacy": "Privacy",
+    "top": "Back to top",
     "name": "Dr. Paraskevas Pakataridis, MD",
-    "copyright": "General Surgery · Sofia · ©"
+    "based": "Based in Greece",
+    "rights": "All rights reserved."
+  },
+  "Privacy": {
+    "label": "Legal",
+    "title": "Privacy notice",
+    "updated": "Last updated: September 2026",
+    "sections": [
+      {
+        "heading": "Who is responsible",
+        "body": "Dr. Paraskevas Pakataridis, based in Greece, is responsible for the personal data collected through this website."
+      },
+      {
+        "heading": "What is collected",
+        "body": "Only what you enter in the appointment form: your name, email address, an optional phone number, the subject of your enquiry and your message."
+      },
+      {
+        "heading": "Why it is used",
+        "body": "Solely to respond to your request and, where appropriate, to arrange an appointment or meeting. Your details are never used for marketing, sold or shared with third parties for their own purposes."
+      },
+      {
+        "heading": "Legal basis",
+        "body": "Your consent, given when you submit the form (Article 6(1)(a) GDPR). You may withdraw it at any time."
+      },
+      {
+        "heading": "How it is handled",
+        "body": "Requests are delivered by email through a trusted email service provider, which may process data outside the European Union under appropriate safeguards. Please do not send detailed medical records through the form; clinical matters are discussed in person."
+      },
+      {
+        "heading": "How long it is kept",
+        "body": "Your enquiry is kept only for as long as needed to respond and for any follow-up you request, and is then deleted."
+      },
+      {
+        "heading": "Your rights",
+        "body": "You may ask to access, correct or delete your data, or object to its processing, by sending a request through the form. You also have the right to lodge a complaint with the Hellenic Data Protection Authority (www.dpa.gr)."
+      },
+      {
+        "heading": "Analytics and cookies",
+        "body": "This website uses privacy-friendly, cookie-free analytics to understand overall visits. A single functional cookie remembers your language preference."
+      }
+    ]
+  },
+  "NotFound": {
+    "label": "Error 404",
+    "title": "This page does not exist.",
+    "text": "It may have moved, or the address may be mistyped.",
+    "cta": "Return home"
+  },
+  "A11y": {
+    "skip": "Skip to content"
   }
 }

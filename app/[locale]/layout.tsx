@@ -1,207 +1,72 @@
 import type { Metadata, Viewport } from 'next';
-import JsonLd from './json-ld';
-import {
-  Geist,
-  Geist_Mono,
-  Raleway,
-  Playfair_Display,
-  DM_Sans,
-  Instrument_Serif,
-  Outfit,
-  Cormorant_Garamond,
-  Source_Sans_3,
-  Urbanist,
-  Manrope,
-  Lora,
-  Nunito_Sans,
-  Syne,
-  Inter,
-} from 'next/font/google';
+import { Inter_Tight, JetBrains_Mono, Noto_Serif_Display } from 'next/font/google';
+import { notFound } from 'next/navigation';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
+import { hasLocale, NextIntlClientProvider, useTranslations } from 'next-intl';
+import { setRequestLocale } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
-import { notFound } from 'next/navigation';
+import { site } from '@/lib/site';
+import { Footer } from '@/components/site/footer';
+import { IntroCurtain } from '@/components/site/intro';
+import { Nav } from '@/components/site/nav';
+import { Providers } from '@/components/site/providers';
+import JsonLd from './json-ld';
 import '../globals.css';
 
-const raleway = Raleway({
-  subsets: ['latin', 'cyrillic'],
-  variable: '--font-raleway',
-});
-const syne = Syne({
+const interTight = Inter_Tight({
   subsets: ['latin', 'greek'],
-  variable: '--font-syne',
+  variable: '--font-inter-tight',
 });
-const inter = Inter({
-  subsets: ['latin', 'cyrillic'],
-  variable: '--font-inter',
+const notoSerifDisplay = Noto_Serif_Display({
+  subsets: ['latin', 'greek'],
+  style: ['normal', 'italic'],
+  variable: '--font-noto-serif-display',
 });
-const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] });
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin', 'greek'],
+  variable: '--font-jetbrains-mono',
 });
-
-// Design 1 fonts
-const playfairDisplay = Playfair_Display({
-  subsets: ['latin'],
-  variable: '--font-playfair',
-});
-const dmSans = DM_Sans({ subsets: ['latin'], variable: '--font-dm-sans' });
-
-// Design 2 fonts
-const instrumentSerif = Instrument_Serif({
-  subsets: ['latin'],
-  weight: '400',
-  variable: '--font-instrument',
-});
-const outfit = Outfit({ subsets: ['latin'], variable: '--font-sans' });
-
-// Design 3 fonts
-const cormorantGaramond = Cormorant_Garamond({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-cormorant',
-});
-const sourceSans3 = Source_Sans_3({
-  subsets: ['latin'],
-  variable: '--font-source-sans',
-});
-
-// Design 4 fonts
-const urbanist = Urbanist({ subsets: ['latin'], variable: '--font-urbanist' });
-const manrope = Manrope({ subsets: ['latin'], variable: '--font-manrope' });
-
-// Design 5 fonts
-const lora = Lora({ subsets: ['latin'], variable: '--font-lora' });
-const nunitoSans = Nunito_Sans({
-  subsets: ['latin'],
-  variable: '--font-nunito-sans',
-});
-
-const siteUrl = 'https://pakataridis.com';
-
-const keywordsByLocale: Record<string, string[]> = {
-  en: [
-    'general surgery Sofia',
-    'English speaking doctor Sofia',
-    'surgeon Bulgaria',
-    'Dr Pakataridis',
-    'surgical consultation Sofia',
-    'expat doctor Sofia',
-    'international surgeon Bulgaria',
-    'second opinion surgery',
-    'laparoscopic surgery Sofia',
-    'hernia surgery Sofia',
-  ],
-  el: [
-    'γενική χειρουργική Σόφια',
-    'Έλληνας γιατρός Σόφια',
-    'χειρουργός Βουλγαρία',
-    'Δρ Πακαταρίδης',
-    'χειρουργική συμβουλευτική',
-    'λαπαροσκοπική χειρουργική',
-  ],
-  bg: [
-    'обща хирургия София',
-    'хирург София',
-    'д-р Пакатаридис',
-    'хирургична консултация',
-    'лапароскопска хирургия София',
-    'университетска болница Лозенец',
-  ],
-};
 
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#2D6A4F',
+  themeColor: '#0c0c0c',
 };
 
-const metaByLocale: Record<string, { title: string; description: string }> = {
-  en: {
-    title: 'Dr. Paraskevas Pakataridis, MD — General Surgery, Sofia',
-    description:
-      'International perspective. Local care. General surgery consultations in Sofia with Dr. Paraskevas Pakataridis.',
-  },
-  el: {
-    title: 'Δρ. Παρασκευάς Πακαταρίδης — Γενική Χειρουργική, Σόφια',
-    description:
-      'Διεθνής εμπειρία. Τοπική φροντίδα. Χειρουργικές συμβουλευτικές στη Σόφια με τον Δρ. Παρασκευά Πακαταρίδη.',
-  },
-  bg: {
-    title: 'Д-р Параскевас Пакатаридис — Обща хирургия, София',
-    description:
-      'Международна перспектива. Местна грижа. Хирургични консултации в София с д-р Параскевас Пакатаридис.',
+// Page-specific titles and URLs come from lib/metadata.ts in each page.
+export const metadata: Metadata = {
+  metadataBase: new URL(site.url),
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      'index': true,
+      'follow': true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
 };
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
-  const { locale } = await params;
-  const meta = metaByLocale[locale] ?? metaByLocale.en;
-
-  const canonicalUrl = locale === 'en' ? siteUrl : `${siteUrl}/${locale}`;
-  const ogLocale =
-    locale === 'el' ? 'el_GR' : locale === 'bg' ? 'bg_BG' : 'en_GB';
-
-  return {
-    metadataBase: new URL(siteUrl),
-    title: meta.title,
-    description: meta.description,
-    keywords: keywordsByLocale[locale] ?? keywordsByLocale.en,
-    robots: {
-      index: true,
-      follow: true,
-      googleBot: {
-        'index': true,
-        'follow': true,
-        'max-video-preview': -1,
-        'max-image-preview': 'large' as const,
-        'max-snippet': -1,
-      },
-    },
-    alternates: {
-      canonical: canonicalUrl,
-      languages: {
-        en: siteUrl,
-        el: `${siteUrl}/el`,
-        bg: `${siteUrl}/bg`,
-      },
-    },
-    openGraph: {
-      type: 'website',
-      url: canonicalUrl,
-      siteName: 'Dr. Pakataridis',
-      title: meta.title,
-      description: meta.description,
-      locale: ogLocale,
-      alternateLocale: ['en_GB', 'el_GR', 'bg_BG'].filter(
-        (l) => l !== ogLocale,
-      ),
-      images: [
-        {
-          url: '/og-image.jpg',
-          width: 1200,
-          height: 630,
-          alt: meta.title,
-        },
-      ],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: meta.title,
-      description: meta.description,
-      images: ['/og-image.jpg'],
-    },
-  };
+function SkipLink() {
+  const t = useTranslations('A11y');
+  return (
+    <a
+      href='#content'
+      className='sr-only fixed top-4 left-4 z-[110] rounded-full bg-bone px-5 py-3 text-sm text-ink focus:not-sr-only'
+    >
+      {t('skip')}
+    </a>
+  );
 }
 
-export default async function RootLayout({
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+export default async function LocaleLayout({
   children,
   params,
 }: Readonly<{
@@ -209,29 +74,28 @@ export default async function RootLayout({
   params: Promise<{ locale: string }>;
 }>) {
   const { locale } = await params;
-
-  // Validate locale
-  if (!routing.locales.includes(locale as 'en' | 'el' | 'bg')) {
-    notFound();
-  }
-
-  const messages = await getMessages();
+  if (!hasLocale(routing.locales, locale)) notFound();
+  setRequestLocale(locale);
 
   return (
     <html
       lang={locale}
       translate='no'
-      className={`${raleway.variable} ${syne.variable} ${inter.variable} ${playfairDisplay.variable} ${dmSans.variable} ${instrumentSerif.variable} ${outfit.variable} ${cormorantGaramond.variable} ${sourceSans3.variable} ${urbanist.variable} ${manrope.variable} ${lora.variable} ${nunitoSans.variable}`}
+      className={`${interTight.variable} ${notoSerifDisplay.variable} ${jetbrainsMono.variable}`}
     >
       <head>
         <meta name='google' content='notranslate' />
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body>
         <JsonLd locale={locale} />
-        <NextIntlClientProvider messages={messages}>
-          {children}
+        <NextIntlClientProvider>
+          <SkipLink />
+          <IntroCurtain />
+          <Providers>
+            <Nav />
+            {children}
+            <Footer />
+          </Providers>
         </NextIntlClientProvider>
         <Analytics />
         <SpeedInsights />

@@ -1,21 +1,17 @@
 import type { MetadataRoute } from 'next';
-
-const BASE_URL = 'https://pakataridis.com';
+import { PRACTICES, site } from '@/lib/site';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    {
-      url: BASE_URL,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 1,
-      alternates: {
-        languages: {
-          en: BASE_URL,
-          el: `${BASE_URL}/el`,
-          bg: `${BASE_URL}/bg`,
-        },
+  return ['', ...PRACTICES.map((p) => `/${p}`), '/privacy'].map((path) => ({
+    url: `${site.url}${path}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly',
+    priority: path === '' ? 1 : path === '/privacy' ? 0.3 : 0.8,
+    alternates: {
+      languages: {
+        en: `${site.url}${path}`,
+        el: `${site.url}/el${path}`,
       },
     },
-  ];
+  }));
 }
