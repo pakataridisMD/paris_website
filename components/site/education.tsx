@@ -36,7 +36,7 @@ export function EducationPage() {
         intro={t('intro')}
         image={talk}
         imageAlt={t('photos.talk')}
-        imagePosition='object-[60%_40%]'
+        imagePosition='object-center'
         eyebrow={
           <span className='inline-flex items-center gap-2 rounded-full border border-brass/30 px-4 py-2 text-sm text-brass'>
             <GraduationCap className='h-4 w-4' />
@@ -54,7 +54,7 @@ export function EducationPage() {
               alt={t('photos.summit')}
               caption={t('photos.summit')}
               className='md:col-span-7'
-              aspect='aspect-[1179/852]'
+              aspect='aspect-[760/792]'
               sizes='(min-width: 768px) 58vw, 100vw'
             />
             <ScrollMedia
@@ -63,7 +63,6 @@ export function EducationPage() {
               caption={t('photos.teaching')}
               className='md:col-span-5 md:mt-32'
               aspect='aspect-[3/4]'
-              position='object-[72%_50%]'
               sizes='(min-width: 768px) 42vw, 100vw'
             />
           </div>

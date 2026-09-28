@@ -35,7 +35,7 @@ export function BusinessPage() {
         intro={t('intro')}
         image={consulate}
         imageAlt={t('imageAlt')}
-        imagePosition='object-[50%_40%]'
+        imagePosition='object-[50%_30%]'
       />
 
       <CredoScene lines={t.raw('credo') as string[]} imageAlt={t('imageAlt')} />
@@ -73,7 +73,7 @@ function CredoScene({ lines, imageAlt }: { lines: string[]; imageAlt: string }) 
   const shade = useTransform(p, [0.25, 0.45], [0, 1]);
 
   return (
-    <section ref={ref} className='relative h-[300vh] bg-ink'>
+    <section ref={ref} className='relative h-[240vh] bg-ink md:h-[300vh]'>
       <div className='sticky top-0 h-[100svh] overflow-hidden'>
         <motion.div style={reduce ? undefined : { clipPath }} className='absolute inset-0'>
           <motion.div style={reduce ? undefined : { scale: zoom }} className='absolute inset-0'>
@@ -84,16 +84,18 @@ function CredoScene({ lines, imageAlt }: { lines: string[]; imageAlt: string }) 
               quality={90}
               sizes='100vw'
               placeholder='blur'
-              className='object-cover object-[50%_35%]'
+              // Phones show a tall slice of this wide photo: keep Paraskevas (left) in frame.
+              className='object-cover object-[19%_30%] md:object-[50%_35%]'
             />
           </motion.div>
           <motion.div
             style={{ opacity: reduce ? 1 : shade }}
-            className='absolute inset-0 bg-gradient-to-r from-ink/90 via-ink/65 to-ink/30'
+            className='absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/5 md:bg-gradient-to-l md:from-ink/95 md:via-ink/60 md:to-transparent'
           />
         </motion.div>
 
-        <div className='relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-center px-4 md:px-8'>
+        {/* Words stay clear of Paraskevas: low on phones, on the right elsewhere */}
+        <div className='relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-[max(5rem,calc(env(safe-area-inset-bottom)+3rem))] md:items-end md:justify-center md:px-8 md:pb-0 md:text-right'>
           <h2 className='font-serif text-[clamp(2.6rem,7vw,6.5rem)] leading-[1.05] font-light tracking-[-0.03em]'>
             {lines.map((line, i) => (
               <SceneLine
@@ -102,8 +104,8 @@ function CredoScene({ lines, imageAlt }: { lines: string[]; imageAlt: string }) 
                 range={[0.42 + i * 0.13, 0.54 + i * 0.13]}
                 still={!!reduce}
                 className={cn(
-                  i === 1 && 'md:pl-[12%]',
-                  i === lines.length - 1 && 'text-brass italic md:pl-[24%]',
+                  i === 1 && 'md:pr-[12%]',
+                  i === lines.length - 1 && 'text-brass italic md:pr-[24%]',
                 )}
               >
                 {line}{' '}

@@ -96,7 +96,7 @@ function AppointmentPanel({
           data-lenis-prevent
           className='panel-content grain fixed inset-y-0 right-0 z-[80] flex w-full max-w-xl flex-col overflow-y-auto overscroll-contain bg-ink-soft text-bone shadow-[-40px_0_80px_-20px_rgba(0,0,0,0.6)] outline-none md:border-l md:border-white/10'
         >
-          <div className='relative z-10 flex min-h-full flex-col px-6 pt-6 pb-10 sm:px-10 md:px-12'>
+          <div className='relative z-10 flex min-h-full flex-col px-6 pt-[max(1.5rem,env(safe-area-inset-top))] pb-[max(2.5rem,calc(env(safe-area-inset-bottom)+1.5rem))] sm:px-10 md:px-12'>
             <div className='flex items-center justify-between'>
               <span className='flex items-center gap-3 font-mono text-[11px] tracking-[0.25em] text-brass uppercase'>
                 <Emblem className='h-7 w-7' />
@@ -157,7 +157,7 @@ function AppointmentPanel({
                             onClick={() => onTopicChange(key)}
                             aria-pressed={topic === key}
                             className={cn(
-                              'relative cursor-pointer rounded-full px-3 py-2 text-xs font-medium transition-colors',
+                              'relative min-h-10 cursor-pointer rounded-full px-3 py-2 text-xs font-medium transition-colors',
                               topic === key ? 'text-ink' : 'text-bone/55 hover:text-bone',
                             )}
                           >

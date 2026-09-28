@@ -42,7 +42,7 @@ export function LocaleSwitch({ id, className }: { id: string; className?: string
           aria-pressed={locale === code}
           aria-label={code === 'en' ? 'English' : 'Ελληνικά'}
           className={cn(
-            'relative cursor-pointer rounded-full px-2.5 py-1 uppercase transition-colors',
+            'relative flex min-h-10 min-w-12 cursor-pointer items-center justify-center rounded-full px-3 uppercase transition-colors',
             locale === code ? 'text-ink' : 'text-bone/50 hover:text-bone',
           )}
         >
@@ -94,13 +94,13 @@ export function Nav() {
       >
         <nav
           aria-label='Main'
-          className='mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-6 md:px-8'
+          className='mx-auto flex max-w-7xl items-center justify-between gap-6 px-[max(1rem,env(safe-area-inset-left))] pt-[max(1.25rem,env(safe-area-inset-top))] pb-5 md:px-8'
         >
           <Link
             href='/'
             onClick={() => setMenuOpen(false)}
             aria-label={t('home')}
-            className='group flex items-center gap-3 font-serif text-xl tracking-tight whitespace-nowrap md:text-2xl'
+            className='group flex min-h-11 items-center gap-3 font-serif text-xl tracking-tight whitespace-nowrap md:text-2xl'
           >
             <Emblem className='h-8 w-8 transition-transform duration-700 ease-out-expo group-hover:rotate-[20deg] md:h-9 md:w-9' />
             <span>P. Pakataridis</span>
@@ -114,7 +114,7 @@ export function Nav() {
                   <Link
                     href={`/${id}`}
                     className={cn(
-                      'relative block py-1 font-mono text-[11px] tracking-[0.22em] uppercase transition-opacity',
+                      'relative block py-3.5 font-mono text-[11px] tracking-[0.22em] uppercase transition-opacity',
                       active ? 'opacity-100' : 'opacity-60 hover:opacity-100',
                     )}
                   >
@@ -122,7 +122,7 @@ export function Nav() {
                     {active && (
                       <motion.span
                         layoutId='nav-underline'
-                        className='absolute inset-x-0 -bottom-0.5 h-px bg-white'
+                        className='absolute inset-x-0 bottom-2.5 h-px bg-white'
                         transition={{ type: 'spring', stiffness: 380, damping: 32 }}
                       />
                     )}
@@ -133,9 +133,9 @@ export function Nav() {
           </ul>
 
           <div className='flex items-center gap-5'>
-            <div className='hidden items-center gap-2 font-mono text-[11px] tracking-[0.2em] sm:flex'>
+            <div className='hidden items-center gap-0.5 font-mono text-[11px] tracking-[0.2em] sm:flex'>
               {(['en', 'el'] as const).map((code, i) => (
-                <span key={code} className='flex items-center gap-2'>
+                <span key={code} className='flex items-center gap-0.5'>
                   {i > 0 && <span className='opacity-30'>/</span>}
                   <button
                     type='button'
@@ -143,7 +143,7 @@ export function Nav() {
                     aria-pressed={locale === code}
                     aria-label={code === 'en' ? 'English' : 'Ελληνικά'}
                     className={cn(
-                      'cursor-pointer uppercase transition-opacity',
+                      'flex min-h-11 min-w-10 cursor-pointer items-center justify-center uppercase transition-opacity',
                       locale === code ? 'opacity-100' : 'opacity-40 hover:opacity-100',
                     )}
                   >
@@ -155,7 +155,7 @@ export function Nav() {
             <button
               type='button'
               onClick={() => openContact()}
-              className='hidden cursor-pointer rounded-full border border-white/40 px-5 py-2 text-sm whitespace-nowrap transition-colors hover:bg-white hover:text-black md:block'
+              className='hidden min-h-11 cursor-pointer items-center rounded-full border border-white/40 px-5 text-sm whitespace-nowrap transition-colors hover:bg-white hover:text-black active:scale-[0.97] md:inline-flex'
             >
               {t('contact')}
             </button>
@@ -164,7 +164,7 @@ export function Nav() {
               onClick={() => setMenuOpen((v) => !v)}
               aria-expanded={menuOpen}
               aria-label={menuOpen ? t('close') : t('menu')}
-              className='flex h-10 w-10 cursor-pointer flex-col items-center justify-center gap-1.5 lg:hidden'
+              className='-mr-2 flex h-11 w-11 cursor-pointer flex-col items-center justify-center gap-1.5 lg:hidden'
             >
               <motion.span
                 className='h-px w-6 bg-white'
@@ -182,7 +182,7 @@ export function Nav() {
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            className='fixed inset-0 z-40 flex flex-col justify-between bg-ink px-6 pt-32 pb-10 md:px-8 lg:hidden'
+            className='fixed inset-0 z-40 flex flex-col justify-between overflow-y-auto bg-ink px-6 pt-32 pb-[max(2.5rem,calc(env(safe-area-inset-bottom)+1.5rem))] md:px-8 lg:hidden'
             initial={{ clipPath: 'inset(0 0 100% 0)' }}
             animate={{ clipPath: 'inset(0 0 0% 0)' }}
             exit={{ clipPath: 'inset(0 0 100% 0)' }}

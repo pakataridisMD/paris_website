@@ -18,7 +18,7 @@ export function Footer() {
   const scrollTo = useScrollTo();
 
   return (
-    <footer className='grain relative z-30 -mt-10 rounded-t-[2.5rem] bg-ink px-4 pt-24 pb-8 md:-mt-14 md:rounded-t-[3.5rem] md:px-8 md:pt-32'>
+    <footer className='grain relative z-30 -mt-10 rounded-t-[2.5rem] bg-ink px-4 pt-24 pb-[max(2rem,calc(env(safe-area-inset-bottom)+1rem))] md:-mt-14 md:rounded-t-[3.5rem] md:px-8 md:pt-32'>
       <div className='relative z-10 mx-auto max-w-7xl'>
         <button
           type='button'
@@ -44,12 +44,12 @@ export function Footer() {
             </div>
           </div>
           <nav aria-label='Footer' className='md:col-span-3'>
-            <ul className='space-y-3'>
+            <ul>
               {PRACTICES.map((id, i) => (
                 <li key={id}>
                   <Link
                     href={`/${id}`}
-                    className='group flex items-baseline gap-4 font-serif text-2xl font-light text-bone/75 transition-colors hover:text-bone'
+                    className='group flex items-baseline gap-4 py-2 font-serif text-2xl font-light text-bone/75 transition-colors hover:text-bone active:text-brass'
                   >
                     <span className='font-mono text-[11px] text-bone/35'>0{i + 1}</span>{' '}
                     <span className='transition-transform duration-500 ease-out-expo group-hover:translate-x-1 group-hover:italic'>
@@ -81,7 +81,7 @@ export function Footer() {
               type='button'
               onClick={() => scrollTo()}
               aria-label={t('top')}
-              className='flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-white/[0.06] text-bone/70 transition hover:bg-bone hover:text-ink'
+              className='flex h-11 w-11 cursor-pointer items-center justify-center rounded-full bg-white/[0.06] text-bone/70 transition hover:bg-bone hover:text-ink active:scale-95'
             >
               <ArrowUp className='h-4 w-4' />
             </button>

@@ -23,7 +23,7 @@ export function ArrowButton({
       <button
         type='button'
         className={cn(
-          'group flex cursor-pointer items-center gap-3 rounded-full py-2 pr-2 pl-6 text-sm font-medium whitespace-nowrap transition-colors duration-300',
+          'group flex min-h-13 cursor-pointer items-center gap-3 rounded-full py-2 pr-2 pl-6 text-sm font-medium whitespace-nowrap transition-[color,background-color,scale] duration-300 active:scale-[0.97]',
           TONES[tone].button,
           className,
         )}

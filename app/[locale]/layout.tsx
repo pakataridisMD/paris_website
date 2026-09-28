@@ -32,6 +32,8 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   themeColor: '#0c0c0c',
+  // Draw edge to edge on notched phones; spacing uses env(safe-area-inset-*).
+  viewportFit: 'cover',
 };
 
 // Page-specific titles and URLs come from lib/metadata.ts in each page.

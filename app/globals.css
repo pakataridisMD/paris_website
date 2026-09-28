@@ -101,6 +101,11 @@
   }
   html {
     color-scheme: dark;
+    /* Buttons have their own press feedback; drop the grey iOS tap flash. */
+    -webkit-tap-highlight-color: transparent;
+    /* Keep font sizes as designed when a phone rotates to landscape. */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
   body {
     @apply bg-ink text-bone font-sans antialiased;

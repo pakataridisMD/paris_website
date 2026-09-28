@@ -25,9 +25,11 @@ export function HomeHero() {
   const photoScale = useTransform(scrollYProgress, [0, 1], [1, 0.88]);
   const fade = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
+  // Full-height on phones and landscape screens; on tall portrait tablets the
+  // hero sizes to its content so the top isn't left empty.
   return (
-    <section ref={ref} className='grain relative min-h-[100svh] overflow-hidden bg-ink'>
-      <div className='relative z-10 mx-auto grid min-h-[100svh] max-w-7xl gap-12 px-4 pt-32 pb-12 md:grid-cols-12 md:gap-10 md:px-8 md:pt-36'>
+    <section ref={ref} className='grain relative min-h-[100svh] overflow-hidden bg-ink md:portrait:min-h-0'>
+      <div className='relative z-10 mx-auto grid min-h-[100svh] max-w-7xl gap-12 px-4 pt-32 pb-12 md:grid-cols-12 md:gap-10 md:px-8 md:pt-36 md:portrait:min-h-0 md:portrait:pb-24'>
         {/* @container: the name is sized to this column, so it never runs under the photo */}
         <motion.div style={{ y: textY, opacity: fade }} className='@container relative z-10 flex flex-col md:col-span-7'>
           <motion.p
@@ -39,7 +41,7 @@ export function HomeHero() {
             {t('eyebrow')}
           </motion.p>
 
-          <h1 className='mt-10 font-serif text-[min(14.5cqw,9.5rem)] leading-[0.95] font-light tracking-[-0.035em] md:mt-auto'>
+          <h1 className='mt-10 font-serif text-[min(14.5cqw,9.5rem)] leading-[0.95] font-light tracking-[-0.035em] md:mt-auto md:portrait:mt-10'>
             <SplitWords immediate delay={delay} text={t('firstName')} className='block' />{' '}
             <SplitWords
               immediate
@@ -94,7 +96,7 @@ export function HomeHero() {
             <div className='pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/30 via-transparent to-transparent' />
           </motion.figure>
           <motion.div
-            className='mt-4 flex items-center justify-between font-mono text-[11px] tracking-[0.2em] text-bone/40 uppercase'
+            className='mt-4 hidden items-center justify-between font-mono text-[11px] tracking-[0.2em] text-bone/40 uppercase md:flex'
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: delay + 0.8 }}
@@ -123,7 +125,7 @@ export function Practices() {
   const [active, setActive] = useState<Practice | null>(null);
 
   return (
-    <section className='grain relative bg-ink pt-16 pb-32 md:pt-24 md:pb-44'>
+    <section className='grain relative bg-ink pt-10 pb-28 md:pt-24 md:pb-44'>
       <div className='relative z-10 mx-auto max-w-7xl px-4 md:px-8'>
         <div className='flex flex-col justify-between gap-6 md:flex-row md:items-end'>
           <Reveal>
@@ -148,7 +150,7 @@ export function Practices() {
                 href={`/${id}`}
                 onPointerEnter={() => setActive(id)}
                 className={cn(
-                  'group relative grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-5 overflow-hidden py-8 transition-opacity duration-500 md:grid-cols-[4rem_minmax(0,1.5fr)_minmax(0,1fr)_auto] md:gap-8 md:py-12',
+                  'group relative grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-5 overflow-hidden py-7 transition-[opacity,background-color] duration-500 active:bg-white/[0.04] md:grid-cols-[4rem_minmax(0,1.5fr)_minmax(0,1fr)_auto] md:gap-8 md:py-12',
                   active && active !== id && 'md:opacity-35',
                 )}
               >
@@ -162,8 +164,12 @@ export function Practices() {
                   className='absolute bottom-0 left-0 h-px w-full origin-left scale-x-0 bg-brass/70 transition-transform duration-1000 ease-out-expo group-hover:scale-x-100'
                 />
                 <span className='relative font-mono text-xs text-bone/40'>0{i + 1}</span>{' '}
-                <span className='relative font-serif text-[min(9cqw,2.9rem)] leading-none font-light tracking-[-0.03em] transition-all duration-700 ease-out-expo group-hover:translate-x-3 group-hover:text-brass group-hover:italic md:text-[min(5.6cqw,5.2rem)]'>
-                  {t(`practices.${id}.title`)}
+                <span className='relative flex min-w-0 flex-col gap-2'>
+                  <span className='font-serif text-[min(9cqw,2.9rem)] leading-none font-light tracking-[-0.03em] transition-all duration-700 ease-out-expo group-hover:translate-x-3 group-hover:text-brass group-hover:italic md:text-[min(5.6cqw,5.2rem)]'>
+                    {t(`practices.${id}.title`)}
+                  </span>{' '}
+                  {/* Phones have no room for the description column */}
+                  <span className='text-sm text-bone/45 md:hidden'>{t(`practices.${id}.desc`)}</span>
                 </span>{' '}
                 <span className='relative hidden text-bone/50 transition-colors duration-500 group-hover:text-bone/80 md:block'>
                   {t(`practices.${id}.desc`)}
