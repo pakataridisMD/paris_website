@@ -75,7 +75,7 @@ export function PageHero({
           )}
 
           <h1 className='mt-8 font-serif text-[min(11.5cqw,7rem)] leading-[1] font-light tracking-[-0.03em]'>
-            <SplitWords immediate delay={delay} text={title} className='block' />
+            <SplitWords immediate delay={delay} text={title} className='block' />{' '}
             <SplitWords
               immediate
               delay={delay + 0.12}

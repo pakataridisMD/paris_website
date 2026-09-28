@@ -5,7 +5,7 @@ import { TOPICS, type Topic } from '@/lib/site';
 const TOPIC_LABELS: Record<Topic, string> = {
   medical: 'Medical appointment request',
   academic: 'Mentoring request',
-  business: 'Business opportunity',
+  business: 'Business',
   other: 'Appointment request',
 };
 

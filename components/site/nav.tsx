@@ -202,7 +202,7 @@ export function Nav() {
                       onClick={() => setMenuOpen(false)}
                       className='flex items-baseline gap-4 py-2'
                     >
-                      <span className='font-mono text-xs text-bone/40'>0{i + 1}</span>
+                      <span className='font-mono text-xs text-bone/40'>0{i + 1}</span>{' '}
                       <span className='font-serif text-5xl font-light'>{t(id)}</span>
                     </Link>
                   </motion.div>

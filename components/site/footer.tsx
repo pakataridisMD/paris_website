@@ -51,7 +51,7 @@ export function Footer() {
                     href={`/${id}`}
                     className='group flex items-baseline gap-4 font-serif text-2xl font-light text-bone/75 transition-colors hover:text-bone'
                   >
-                    <span className='font-mono text-[11px] text-bone/35'>0{i + 1}</span>
+                    <span className='font-mono text-[11px] text-bone/35'>0{i + 1}</span>{' '}
                     <span className='transition-transform duration-500 ease-out-expo group-hover:translate-x-1 group-hover:italic'>
                       {nav(id)}
                     </span>

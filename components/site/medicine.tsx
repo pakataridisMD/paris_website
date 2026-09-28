@@ -46,7 +46,7 @@ export function MedicinePage() {
                 <Reveal key={point} delay={i * 0.06} y={20}>
                   <li className='group flex items-center justify-between border-b border-ink/10 py-6'>
                     <span className='flex items-baseline gap-6'>
-                      <span className='font-mono text-xs text-ink/35'>0{i + 1}</span>
+                      <span className='font-mono text-xs text-ink/35'>0{i + 1}</span>{' '}
                       <span className='font-serif text-2xl font-light transition-transform duration-500 ease-out-expo group-hover:translate-x-2 md:text-3xl'>
                         {point}
                       </span>

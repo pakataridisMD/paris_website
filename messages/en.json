@@ -6,7 +6,7 @@
     },
     "business": {
       "title": "Business — Dr. Paraskevas Pakataridis",
-      "description": "Open to ventures, partnerships and new opportunities."
+      "description": "Beyond the clinic."
     },
     "medicine": {
       "title": "Medicine — Dr. Paraskevas Pakataridis",
@@ -43,12 +43,12 @@
     "practicesHeading": "Three disciplines.",
     "practicesHeadingAccent": "One standard.",
     "practices": {
-      "business": { "title": "Business", "desc": "Open to opportunity." },
+      "business": { "title": "Business", "desc": "Beyond the clinic." },
       "medicine": { "title": "Medicine", "desc": "Your personal physician." },
       "education": { "title": "Education", "desc": "Research, teaching and publishing." }
     },
     "principlesLabel": "Principles",
-    "principlesText": "Whether it concerns your health, your career or an opportunity worth exploring, you deal directly with me. No intermediaries, no noise.",
+    "principlesText": "Whether it concerns your health, your career or something else entirely, you deal directly with me. No intermediaries, no noise.",
     "principles": [
       { "title": "Discretion", "desc": "What you share stays between us." },
       { "title": "Precision", "desc": "Clear answers, grounded in evidence." },
@@ -62,15 +62,13 @@
   },
   "Business": {
     "label": "Business",
-    "heading": "Open to",
-    "headingAccent": "opportunity.",
-    "intro": "Ventures, partnerships and ideas worth building. Considered selectively, discussed in confidence.",
-    "photoCaption": "Institutional meetings",
-    "credo": ["The right idea.", "The right people.", "The right time."],
-    "ctaLabel": "Introductions",
-    "ctaHeading": "Worth a conversation?",
-    "ctaText": "Every opportunity is considered personally and in confidence.",
-    "cta": "Start a conversation"
+    "heading": "Beyond",
+    "headingAccent": "the clinic.",
+    "intro": "Some things are better discussed in person.",
+    "imageAlt": "Dr. Paraskevas Pakataridis",
+    "credo": ["Quietly.", "Deliberately.", "Discreetly."],
+    "ctaHeading": "By introduction.",
+    "cta": "Get in touch"
   },
   "Medicine": {
     "label": "Medicine",

@@ -40,7 +40,7 @@ export function HomeHero() {
           </motion.p>
 
           <h1 className='mt-10 font-serif text-[min(14.5cqw,9.5rem)] leading-[0.95] font-light tracking-[-0.035em] md:mt-auto'>
-            <SplitWords immediate delay={delay} text={t('firstName')} className='block' />
+            <SplitWords immediate delay={delay} text={t('firstName')} className='block' />{' '}
             <SplitWords
               immediate
               delay={delay + 0.12}
@@ -132,7 +132,7 @@ export function Practices() {
             </p>
           </Reveal>
           <h2 className='font-serif text-[clamp(2rem,4vw,3.4rem)] leading-[1.05] font-light tracking-[-0.02em] md:text-right'>
-            <SplitWords text={t('practicesHeading')} className='block' />
+            <SplitWords text={t('practicesHeading')} className='block' />{' '}
             <SplitWords
               text={t('practicesHeadingAccent')}
               delay={0.1}
@@ -161,10 +161,10 @@ export function Practices() {
                   aria-hidden='true'
                   className='absolute bottom-0 left-0 h-px w-full origin-left scale-x-0 bg-brass/70 transition-transform duration-1000 ease-out-expo group-hover:scale-x-100'
                 />
-                <span className='relative font-mono text-xs text-bone/40'>0{i + 1}</span>
+                <span className='relative font-mono text-xs text-bone/40'>0{i + 1}</span>{' '}
                 <span className='relative font-serif text-[min(9cqw,2.9rem)] leading-none font-light tracking-[-0.03em] transition-all duration-700 ease-out-expo group-hover:translate-x-3 group-hover:text-brass group-hover:italic md:text-[min(5.6cqw,5.2rem)]'>
                   {t(`practices.${id}.title`)}
-                </span>
+                </span>{' '}
                 <span className='relative hidden text-bone/50 transition-colors duration-500 group-hover:text-bone/80 md:block'>
                   {t(`practices.${id}.desc`)}
                 </span>

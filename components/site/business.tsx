@@ -34,29 +34,21 @@ export function BusinessPage() {
         titleAccent={t('headingAccent')}
         intro={t('intro')}
         image={consulate}
-        imageAlt={t('photoCaption')}
+        imageAlt={t('imageAlt')}
         imagePosition='object-[50%_40%]'
       />
 
-      <CredoScene lines={t.raw('credo') as string[]} caption={t('photoCaption')} />
+      <CredoScene lines={t.raw('credo') as string[]} imageAlt={t('imageAlt')} />
 
       <section className='bg-ink pt-32 pb-24 md:pt-44 md:pb-36'>
         <div className='mx-auto max-w-7xl px-4 md:px-8'>
-          <Reveal className='grid gap-8 border-t border-white/10 pt-12 md:grid-cols-12'>
-            <p className='font-mono text-[11px] tracking-[0.25em] text-brass uppercase md:col-span-3'>
-              {t('ctaLabel')}
-            </p>
-            <div className='md:col-span-9'>
-              <h2 className='font-serif text-[clamp(2.6rem,6vw,5.5rem)] leading-[1] font-light tracking-[-0.03em]'>
-                {t('ctaHeading')}
-              </h2>
-              <p className='mt-6 max-w-md leading-relaxed text-bone/55'>{t('ctaText')}</p>
-              <div className='mt-10'>
-                <ArrowButton tone='brass' onClick={() => openContact('business')}>
-                  {t('cta')}
-                </ArrowButton>
-              </div>
-            </div>
+          <Reveal className='flex flex-col items-start justify-between gap-10 border-t border-white/10 pt-12 md:flex-row md:items-end'>
+            <h2 className='font-serif text-[clamp(2.6rem,6vw,5.5rem)] leading-[1] font-light tracking-[-0.03em] italic'>
+              {t('ctaHeading')}
+            </h2>
+            <ArrowButton tone='brass' onClick={() => openContact('business')}>
+              {t('cta')}
+            </ArrowButton>
           </Reveal>
         </div>
       </section>
@@ -68,7 +60,7 @@ export function BusinessPage() {
 
 /* Pinned full-screen scene: the photo expands from an inset card to edge to
    edge, darkens, and the credo appears over it one line at a time. */
-function CredoScene({ lines, caption }: { lines: string[]; caption: string }) {
+function CredoScene({ lines, imageAlt }: { lines: string[]; imageAlt: string }) {
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
   const { scrollYProgress: p } = useScroll({ target: ref, offset: ['start start', 'end end'] });
@@ -79,7 +71,6 @@ function CredoScene({ lines, caption }: { lines: string[]; caption: string }) {
   const clipPath = useMotionTemplate`inset(${insetY}% ${insetX}% ${insetY}% ${insetX}% round ${radius}px)`;
   const zoom = useTransform(p, [0, 1], [1.22, 1.02]);
   const shade = useTransform(p, [0.25, 0.45], [0, 1]);
-  const captionOpacity = useTransform(p, [0.3, 0.45], [0, 1]);
 
   return (
     <section ref={ref} className='relative h-[300vh] bg-ink'>
@@ -88,7 +79,7 @@ function CredoScene({ lines, caption }: { lines: string[]; caption: string }) {
           <motion.div style={reduce ? undefined : { scale: zoom }} className='absolute inset-0'>
             <SmoothImage
               src={meeting}
-              alt={caption}
+              alt={imageAlt}
               fill
               quality={90}
               sizes='100vw'
@@ -115,18 +106,11 @@ function CredoScene({ lines, caption }: { lines: string[]; caption: string }) {
                   i === lines.length - 1 && 'text-brass italic md:pl-[24%]',
                 )}
               >
-                {line}
+                {line}{' '}
               </SceneLine>
             ))}
           </h2>
         </div>
-
-        <motion.p
-          style={{ opacity: reduce ? 1 : captionOpacity }}
-          className='absolute bottom-8 left-1/2 z-10 w-full max-w-7xl -translate-x-1/2 px-4 font-mono text-[11px] tracking-[0.2em] text-bone/55 uppercase md:px-8'
-        >
-          {caption}
-        </motion.p>
       </div>
     </section>
   );
