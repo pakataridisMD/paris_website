@@ -61,7 +61,9 @@ export async function POST(request: Request) {
 
   try {
     const { error } = await new Resend(apiKey).emails.send({
-      from: 'Website Appointments <onboarding@resend.dev>',
+      // Resend's shared test sender only delivers to the Resend account's own
+      // address; set CONTACT_FROM once drpakataridis.com is verified in Resend.
+      from: process.env.CONTACT_FROM || 'Website Appointments <onboarding@resend.dev>',
       to: [toEmail],
       replyTo: email,
       subject: `${TOPIC_LABELS[topic]} — ${name}`,

@@ -176,7 +176,7 @@ export function EducationPage() {
         </div>
       </section>
 
-      <NextChapter to='business' />
+      <NextChapter to='medicine' />
     </>
   );
 }

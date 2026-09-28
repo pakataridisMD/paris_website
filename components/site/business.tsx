@@ -28,7 +28,7 @@ export function BusinessPage() {
   return (
     <>
       <PageHero
-        index='01'
+        index='02'
         label={t('label')}
         title={t('heading')}
         titleAccent={t('headingAccent')}
@@ -53,7 +53,7 @@ export function BusinessPage() {
         </div>
       </section>
 
-      <NextChapter to='medicine' />
+      <NextChapter to='education' />
     </>
   );
 }

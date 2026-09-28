@@ -6,7 +6,7 @@ export const site = {
   phone: null as string | null, // e.g. '+30 69X XXX XXXX' — leave null to keep private
 };
 
-export const PRACTICES = ['business', 'medicine', 'education'] as const;
+export const PRACTICES = ['medicine', 'business', 'education'] as const;
 export type Practice = (typeof PRACTICES)[number];
 
 export const TOPICS = ['medical', 'academic', 'business', 'other'] as const;

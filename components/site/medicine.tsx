@@ -27,7 +27,7 @@ export function MedicinePage() {
     <>
       <PageHero
         tone='light'
-        index='02'
+        index='01'
         label={t('label')}
         title={t('heading')}
         titleAccent={t('headingAccent')}
@@ -94,7 +94,7 @@ export function MedicinePage() {
         </div>
       </section>
 
-      <NextChapter to='education' tone='light' />
+      <NextChapter to='business' tone='light' />
     </>
   );
 }
