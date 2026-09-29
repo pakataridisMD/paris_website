@@ -67,7 +67,7 @@
     "intro": "Some things are better discussed in person.",
     "imageAlt": "Dr. Paraskevas Pakataridis",
     "reel": "A short film of human progress: from the first writing, the pyramids and the Parthenon, through Euclid, the Pantheon, Brunelleschi's dome, the printing press, Leonardo, Magellan, Newton, the steam engine, the X-ray, flight, the Hoover Dam, the Moon landing, the microchip and the Hubble Deep Field, to the harnessing of a star.",
-    "reelYears": ["c. 3200 BC", "c. 2560 BC", "438 BC", "c. 300 BC", "126", "1436", "c. 1455", "c. 1490", "1522", "1687", "1776", "1895", "1903", "1936", "1969", "1971", "2004", "∞"],
+    "reelYears": ["3200 BC", "2560 BC", "438 BC", "300 BC", "126", "1436", "1455", "1490", "1522", "1687", "1776", "1895", "1903", "1936", "1969", "1971", "2004", "∞"],
     "pause": "Pause film",
     "play": "Play film",
     "credo": ["Quietly.", "Deliberately.", "Discreetly."],
