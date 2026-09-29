@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import Image, { type StaticImageData } from 'next/image';
-import { AnimatePresence, motion, useInView, useReducedMotion } from 'motion/react';
+import { motion, useInView, useReducedMotion } from 'motion/react';
+import { cn } from '@/lib/utils';
 import { Pause, Play } from 'lucide-react';
 import writing from '@/public/images/reel/01-writing.jpg';
 import pyramids from '@/public/images/reel/02-pyramids.jpg';
@@ -55,9 +56,11 @@ const SCENES: { src: StaticImageData; position: string; origin: string }[] = [
 
 const SCENE_MS = 1000;
 const PRELOAD_AHEAD = 3;
+// Cut styles, rotated so consecutive hits feel different (see globals.css).
+const IMPACTS = ['reel-slam', 'reel-punch', 'reel-shake'];
 
 /* A looping, silent "film" of human progress built from still frames: one
-   milestone a second, dissolving into each other as one continuous push. */
+   milestone a second, each landing with a trailer-style hard cut. */
 export function Reel({
   years,
   label,
@@ -90,7 +93,8 @@ export function Reel({
     return () => clearInterval(id);
   }, [playing]);
 
-  // The frame on screen plus the one it is dissolving over.
+  // The frame on screen plus the one it cut from (kept underneath so a frame
+  // that lands small, or decodes a moment late, never shows a gap).
   const layers = reduce ? [step] : step > 0 ? [step - 1, step] : [step];
 
   return (
@@ -109,7 +113,7 @@ export function Reel({
                 ? undefined
                 : {
                     transformOrigin: scene.origin,
-                    animation: `reel-frame ${SCENE_MS * 2}ms linear forwards`,
+                    animation: `${IMPACTS[s % IMPACTS.length]} ${SCENE_MS * 1.15}ms forwards`,
                     animationPlayState: playing ? 'running' : 'paused',
                   }
             }
@@ -126,6 +130,22 @@ export function Reel({
           </div>
         );
       })}
+
+      {/* Light burst on every cut, alternating ivory and champagne */}
+      {!reduce && step > 0 && (
+        <div
+          key={`flash-${step}`}
+          aria-hidden='true'
+          className={cn(
+            'pointer-events-none absolute inset-0 mix-blend-screen',
+            step % 2 ? 'bg-bone' : 'bg-brass',
+          )}
+          style={{
+            animation: 'reel-flash 320ms ease-out forwards',
+            animationPlayState: playing ? 'running' : 'paused',
+          }}
+        />
+      )}
 
       {/* Warm the cache for the next few frames so every cut is instant */}
       <div aria-hidden='true' className='pointer-events-none invisible absolute h-0 w-0 overflow-hidden'>
@@ -146,20 +166,17 @@ export function Reel({
           <div className='w-full max-w-3xl min-w-0 md:flex-1'>{children}</div>
 
           <div className='flex flex-col gap-5 md:items-end'>
-            {/* Year counter: rolls over once a second */}
-            <div aria-hidden='true' className='relative h-[1.15em] overflow-hidden font-serif text-4xl leading-none font-light whitespace-nowrap text-brass italic md:min-w-[5.5em] md:text-7xl'>
-              <AnimatePresence initial={false}>
-                <motion.span
-                  key={step}
-                  className='absolute inset-x-0 top-0 block md:text-right'
-                  initial={{ y: '100%', opacity: 0 }}
-                  animate={{ y: '0%', opacity: 1 }}
-                  exit={{ y: '-100%', opacity: 0 }}
-                  transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  {years[index]}
-                </motion.span>
-              </AnimatePresence>
+            {/* Year counter: punches in with every cut */}
+            <div aria-hidden='true' className='relative h-[1.15em] font-serif text-4xl leading-none font-light whitespace-nowrap text-brass italic md:min-w-[5.5em] md:text-7xl'>
+              <motion.span
+                key={step}
+                className='absolute inset-x-0 top-0 block origin-left md:origin-right md:text-right'
+                initial={reduce ? false : { scale: 1.6, opacity: 0, filter: 'blur(10px)' }}
+                animate={{ scale: 1, opacity: 1, filter: 'blur(0px)' }}
+                transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+              >
+                {years[index]}
+              </motion.span>
             </div>
 
             <div className='flex items-center gap-4'>
