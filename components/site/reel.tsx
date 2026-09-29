@@ -4,19 +4,43 @@ import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 
 import Image, { type StaticImageData } from 'next/image';
 import { motion, useInView, useReducedMotion } from 'motion/react';
 import { cn } from '@/lib/utils';
+import { BlackHole } from './black-hole';
 import { EASE, SplitWords, useEntranceDelay } from './motion';
 
 /* How each frame arrives (keyframes in globals.css):
    explosive - slam, punch, shake, mega (the biggest hits), swipe (a whip pan)
    calm      - drift (slow dissolve), focus (pull into focus)
-   space     - warp (accelerating zoom), finale (glow, rays, fade to black) */
-export type Cut = 'slam' | 'punch' | 'shake' | 'mega' | 'swipe' | 'drift' | 'focus' | 'warp' | 'finale';
+   space     - warp (stars burst then settle) into finale (glow, rays, fade
+               to black); or hyperspace (ever faster, to light speed and a
+               white-out) into blackhole (a live ray-traced black hole the
+               camera falls into; the frame's image is only a fallback) */
+export type Cut =
+  | 'slam'
+  | 'punch'
+  | 'shake'
+  | 'mega'
+  | 'swipe'
+  | 'drift'
+  | 'focus'
+  | 'warp'
+  | 'finale'
+  | 'hyperspace'
+  | 'blackhole';
 
 export type Scene = { src: StaticImageData; position: string; origin: string; cut: Cut; ms: number };
 
-// Strength of the light burst on each kind of cut (none for calm ones).
-const FLASH: Partial<Record<Cut, number>> = { slam: 0.55, punch: 0.5, shake: 0.45, mega: 0.85, swipe: 0.35 };
-const CALM: Cut[] = ['drift', 'focus', 'warp'];
+// Light burst on each kind of cut, [strength, ms] (none for calm ones). The
+// black hole's is the white-out of light speed clearing.
+const FLASH: Partial<Record<Cut, [number, number]>> = {
+  slam: [0.55, 320],
+  punch: [0.5, 320],
+  shake: [0.45, 320],
+  mega: [0.85, 450],
+  swipe: [0.35, 320],
+  blackhole: [1, 1600],
+};
+const CALM: Cut[] = ['drift', 'focus', 'warp', 'hyperspace'];
+const LONG: Cut[] = ['warp', 'finale', 'hyperspace', 'blackhole'];
 const PRELOAD_AHEAD = 3;
 
 /* A looping, silent "film" built from still frames, cut like a trailer. The
@@ -46,7 +70,7 @@ export function Reel({
   const index = step % count;
   const scene = scenes[index];
   const loop = Math.floor(step / count);
-  const inSpace = index >= count - 2;
+  const stars = scene.cut === 'hyperspace' ? 'hyperspace' : scene.cut === 'warp' || scene.cut === 'finale' ? 'warp' : null;
   const running: CSSProperties['animationPlayState'] = playing ? 'running' : 'paused';
 
   useEffect(() => {
@@ -66,7 +90,19 @@ export function Reel({
 
       {layers.map((s) => {
         const frame = scenes[s % count];
-        const stretch = frame.cut === 'warp' || frame.cut === 'finale' ? 1 : 1.15;
+        if (frame.cut === 'blackhole') {
+          return (
+            <div key={s} aria-hidden='true' className='absolute inset-0 bg-black'>
+              {s === step && !reduce && (
+                <>
+                  <Image src={frame.src} alt='' fill sizes='100vw' className='object-cover' style={{ objectPosition: frame.position }} />
+                  <BlackHole ms={frame.ms} playing={playing} />
+                </>
+              )}
+            </div>
+          );
+        }
+        const stretch = LONG.includes(frame.cut) ? 1 : 1.15;
         return (
           <div
             key={s}
@@ -100,17 +136,30 @@ export function Reel({
         <div
           key={`flash-${step}`}
           aria-hidden='true'
-          className={cn('pointer-events-none absolute inset-0 mix-blend-screen', step % 2 ? 'bg-bone' : 'bg-brass')}
+          className={cn(
+            'pointer-events-none absolute inset-0',
+            scene.cut === 'blackhole' ? 'bg-bone' : ['mix-blend-screen', step % 2 ? 'bg-bone' : 'bg-brass'],
+          )}
           style={{
-            ['--flash' as string]: flash,
-            animation: `reel-flash ${scene.cut === 'mega' ? 450 : 320}ms ease-out forwards`,
+            ['--flash' as string]: flash[0],
+            animation: `reel-flash ${flash[1]}ms ease-out forwards`,
             animationPlayState: running,
           }}
         />
       )}
 
-      {/* Space: stars streak past during the warp, then drift and twinkle */}
-      {!reduce && inSpace && <Starfield key={`stars-${loop}`} playing={playing} />}
+      {/* Space: stars streak past (a warp that settles, or light speed) */}
+      {!reduce && stars && <Starfield key={`stars-${loop}`} playing={playing} hyper={stars === 'hyperspace'} />}
+
+      {/* Light speed ends in a white-out */}
+      {!reduce && scene.cut === 'hyperspace' && (
+        <div
+          key={`white-${step}`}
+          aria-hidden='true'
+          className='pointer-events-none absolute inset-0 bg-bone'
+          style={{ animation: `reel-whiteout ${scene.ms}ms ease-in forwards`, animationPlayState: running }}
+        />
+      )}
 
       {/* Finale: a halo and slowly turning light rays around the last frame */}
       {!reduce && scene.cut === 'finale' && (
@@ -136,12 +185,15 @@ export function Reel({
       <div aria-hidden='true' className='grain pointer-events-none absolute inset-0' />
 
       {/* End of the finale: a slow fade to black before the loop bursts back */}
-      {!reduce && scene.cut === 'finale' && (
+      {!reduce && (scene.cut === 'finale' || scene.cut === 'blackhole') && (
         <div
           key={`black-${step}`}
           aria-hidden='true'
           className='pointer-events-none absolute inset-0 bg-ink'
-          style={{ animation: `reel-blackout ${scene.ms}ms ease-in-out forwards`, animationPlayState: running }}
+          style={{
+            animation: `${scene.cut === 'finale' ? 'reel-blackout' : 'reel-fall'} ${scene.ms}ms ease-in-out forwards`,
+            animationPlayState: running,
+          }}
         />
       )}
 
@@ -233,7 +285,7 @@ function YearLabel({
   const className = 'absolute inset-x-0 top-0 block origin-left md:origin-right md:text-right';
   if (still) return <span className={className}>{text}</span>;
 
-  if (cut === 'finale') {
+  if (cut === 'finale' || cut === 'blackhole') {
     return (
       <motion.span
         className={className}
@@ -264,9 +316,10 @@ function YearLabel({
   );
 }
 
-/* Canvas starfield: stars rush past at warp speed, then slow to a drift and
-   twinkle. Runs only while mounted (the last two scenes) and while playing. */
-function Starfield({ playing }: { playing: boolean }) {
+/* Canvas starfield. Warp: stars rush past, then slow to a drift and twinkle.
+   Hyperspace: from a drift to ever faster streaks, the screen shaking and the
+   centre flaring, until light speed. Runs only while mounted and playing. */
+function Starfield({ playing, hyper }: { playing: boolean; hyper: boolean }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const playingRef = useRef(playing);
 
@@ -293,7 +346,7 @@ function Starfield({ playing }: { playing: boolean }) {
     window.addEventListener('resize', resize);
 
     const spawn = () => ({ x: Math.random() * 2 - 1, y: Math.random() * 2 - 1, z: Math.random() * 0.9 + 0.1 });
-    const stars = Array.from({ length: 420 }, () => {
+    const stars = Array.from({ length: hyper ? 900 : 420 }, () => {
       const s = spawn();
       return { ...s, pz: s.z, twinkle: Math.random() * Math.PI * 2, warm: Math.random() < 0.35 };
     });
@@ -302,29 +355,44 @@ function Starfield({ playing }: { playing: boolean }) {
     let last = performance.now();
     let raf = 0;
     const draw = (now: number) => {
-      const dt = Math.min(now - last, 50);
+      const dt = Math.min(now - last, 250);
       last = now;
       if (playingRef.current) elapsed += dt / 1000;
-      // Warp speed that decays into a slow drift.
-      const speed = playingRef.current ? (0.0015 + 0.045 * Math.exp(-elapsed * 0.9)) * (dt / 16.7) : 0;
+      // Warp: a burst that decays into a drift. Hyperspace: exponential, to light speed.
+      const base = hyper ? Math.min(0.28, 0.004 * Math.exp(elapsed * 1.3)) : 0.0015 + 0.045 * Math.exp(-elapsed * 0.9);
+      const speed = playingRef.current ? base * (dt / 16.7) : 0;
+      const rush = hyper ? base / 0.28 : 0;
+      const trail = 1 + 26 * rush * rush;
       const cx = w / 2;
       const cy = h / 2;
       const scale = Math.max(w, h) * 0.35;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, w, h);
+      if (rush > 0.25) {
+        const shake = (rush - 0.25) * 12;
+        ctx.translate((Math.random() - 0.5) * shake, (Math.random() - 0.5) * shake);
+      }
+      if (rush > 0.05) {
+        const flare = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(w, h) * 0.45);
+        flare.addColorStop(0, `rgba(241,237,229,${0.55 * rush * rush})`);
+        flare.addColorStop(1, 'rgba(241,237,229,0)');
+        ctx.fillStyle = flare;
+        ctx.fillRect(-20, -20, w + 40, h + 40);
+      }
       for (const s of stars) {
-        s.pz = s.z;
         s.z -= speed;
-        if (s.z <= 0.02) {
-          Object.assign(s, spawn(), { z: 1 });
-          s.pz = 1;
-        }
+        if (s.z <= 0.02) Object.assign(s, spawn(), { z: hyper ? 0.7 + Math.random() * 0.3 : 1 });
+        // Tail: where the star was a moment ago; at light speed, far away.
+        s.pz = Math.min(1, s.z + speed * trail);
         const x = cx + (s.x / s.z) * scale;
         const y = cy + (s.y / s.z) * scale;
         const px = cx + (s.x / s.pz) * scale;
         const py = cy + (s.y / s.pz) * scale;
-        const alpha = Math.min(1, (1 - s.z) * 1.5) * (0.65 + 0.35 * Math.sin(elapsed * 3 + s.twinkle));
-        ctx.strokeStyle = s.warm ? `rgba(212,178,120,${alpha})` : `rgba(241,237,229,${alpha})`;
-        ctx.lineWidth = Math.max(0.6, (1 - s.z) * 2.2);
+        const alpha = Math.min(1, (1 - s.z) * 1.5 + rush * 0.3) * (0.65 + 0.35 * Math.sin(elapsed * 3 + s.twinkle));
+        ctx.strokeStyle = s.warm
+          ? `rgba(212,178,120,${alpha})`
+          : `rgba(${Math.round(241 - 30 * rush)},${Math.round(237 - 5 * rush)},${Math.round(229 + 26 * rush)},${alpha})`;
+        ctx.lineWidth = Math.max(0.6, (1 - s.z) * (2.2 + 1.8 * rush));
         ctx.beginPath();
         ctx.moveTo(px, py);
         ctx.lineTo(x + 0.01, y);
@@ -337,7 +405,7 @@ function Starfield({ playing }: { playing: boolean }) {
       cancelAnimationFrame(raf);
       window.removeEventListener('resize', resize);
     };
-  }, []);
+  }, [hyper]);
 
   return (
     <canvas

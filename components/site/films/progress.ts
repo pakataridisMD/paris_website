@@ -26,12 +26,13 @@ import sun from '@/public/images/reel/18-sun.jpg';
    Leonardo, Vitruvian Man · A. Ortelius, Maris Pacifici · Newton, Principia
    (1687) · Watt's rotative engine (c. 1782) · Röntgen's first X-ray (1895) ·
    Wright brothers, first flight (1903) · Ansel Adams, Hoover Dam (NARA) ·
-   NASA, Apollo 11 · Intel 4004 layout (CC0) · NASA/Hubble Ultra Deep Field ·
-   NASA SDO, the Sun.
+   NASA, Apollo 11 · Intel 4004 layout (CC0) · NASA/Hubble Ultra Deep Field.
+   The black hole is rendered live (see black-hole.tsx); NASA SDO's Sun is
+   only its fallback where WebGL is unavailable.
 
    Paced rather than metronomic: four opening hits, a breath, acceleration, a
-   moment of thought, the machine age, silence on the Moon, then a warp into
-   space and a long finale. */
+   moment of thought, the machine age, silence on the Moon, then ever faster
+   to light speed, and a long fall into a black hole. */
 export const PROGRESS: Scene[] = [
   { src: writing, position: '50% 50%', origin: '50% 50%', cut: 'slam', ms: 1000 },
   { src: pyramids, position: '45% 45%', origin: '45% 35%', cut: 'punch', ms: 1000 },
@@ -49,6 +50,6 @@ export const PROGRESS: Scene[] = [
   { src: dam, position: '35% 35%', origin: '35% 30%', cut: 'shake', ms: 700 },
   { src: moon, position: '48% 35%', origin: '48% 30%', cut: 'drift', ms: 1800 },
   { src: chip, position: '50% 50%', origin: '50% 50%', cut: 'mega', ms: 650 },
-  { src: hubble, position: '50% 50%', origin: '50% 50%', cut: 'warp', ms: 1900 },
-  { src: sun, position: '50% 50%', origin: '50% 50%', cut: 'finale', ms: 7500 },
+  { src: hubble, position: '50% 50%', origin: '50% 50%', cut: 'hyperspace', ms: 3400 },
+  { src: sun, position: '50% 50%', origin: '50% 50%', cut: 'blackhole', ms: 11000 },
 ];
