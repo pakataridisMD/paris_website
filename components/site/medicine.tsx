@@ -7,9 +7,11 @@ import { site } from '@/lib/site';
 import headshot from '@/public/images/headshot.jpg';
 import { ArrowButton } from './button';
 import { useContact } from './contact';
+import { MEDICINE } from './films/medicine';
+import { ScrollMedia } from './media';
 import { EASE, Reveal } from './motion';
 import { NextChapter } from './next-chapter';
-import { PageHero } from './page-hero';
+import { Reel, ReelTitle } from './reel';
 
 export function MedicinePage() {
   const t = useTranslations('Medicine');
@@ -25,23 +27,42 @@ export function MedicinePage() {
 
   return (
     <>
-      <PageHero
-        tone='light'
-        index='01'
-        label={t('label')}
-        title={t('heading')}
-        titleAccent={t('headingAccent')}
-        intro={t('intro')}
-        image={headshot}
-        imageAlt={t('label')}
-        imagePosition='object-[50%_25%]'
-      />
+      <Reel scenes={MEDICINE} years={t.raw('reelYears') as string[]} label={t('reel')}>
+        <ReelTitle
+          index='01'
+          label={t('label')}
+          heading={t('heading')}
+          headingAccent={t('headingAccent')}
+          intro={t('intro')}
+        />
+      </Reel>
+
+      {/* From the history of medicine to the physician himself */}
+      <section className='bg-bone pt-24 pb-20 text-ink md:pt-36 md:pb-28'>
+        <div className='mx-auto grid max-w-7xl gap-14 px-4 md:grid-cols-12 md:items-center md:gap-10 md:px-8'>
+          <div className='md:col-span-6'>
+            <Heartbeat />
+            <Reveal>
+              <p className='mt-10 font-serif text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.15] font-light tracking-[-0.01em]'>
+                {t('about')}
+              </p>
+            </Reveal>
+          </div>
+          <ScrollMedia
+            src={headshot}
+            alt={t('portraitAlt')}
+            aspect='aspect-[4/5]'
+            position='object-[50%_25%]'
+            sizes='(min-width: 768px) 40vw, 100vw'
+            className='md:col-span-5 md:col-start-8'
+          />
+        </div>
+      </section>
 
       <section className='bg-bone pb-24 text-ink md:pb-36'>
         <div className='mx-auto grid max-w-7xl gap-16 px-4 md:grid-cols-12 md:gap-10 md:px-8'>
           <div className='md:col-span-7'>
-            <Heartbeat />
-            <ul className='mt-6 border-t border-ink/10'>
+            <ul className='border-t border-ink/10'>
               {points.map((point, i) => (
                 <Reveal key={point} delay={i * 0.06} y={20}>
                   <li className='group flex items-center justify-between border-b border-ink/10 py-6'>
@@ -56,9 +77,6 @@ export function MedicinePage() {
                 </Reveal>
               ))}
             </ul>
-            <Reveal>
-              <p className='mt-10 max-w-lg leading-relaxed text-ink/55'>{t('about')}</p>
-            </Reveal>
           </div>
 
           <div className='md:col-span-5'>
