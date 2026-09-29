@@ -52,7 +52,7 @@ export async function pageMetadata(
     openGraph: {
       type: 'website',
       url: urlFor(locale),
-      siteName: 'Dr. Pakataridis',
+      siteName: 'Dr. Paraskevas Pakataridis',
       title,
       description,
       locale: ogLocale,

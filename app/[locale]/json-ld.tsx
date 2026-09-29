@@ -18,10 +18,19 @@ const jobTitleByLocale: Record<string, string> = {
 export default function JsonLd({ locale }: { locale: string }) {
   const url = locale === 'en' ? site.url : `${site.url}/${locale}`;
 
+  // The site name Google shows above results.
+  const website = {
+    '@type': 'WebSite',
+    'name': 'Dr. Paraskevas Pakataridis',
+    'alternateName': ['Dr. Pakataridis', 'drpakataridis.com'],
+    'url': `${site.url}/`,
+  };
+
   const person = {
-    '@context': 'https://schema.org',
     '@type': 'Person',
     'name': nameByLocale[locale] ?? nameByLocale.en,
+    'honorificPrefix': locale === 'el' ? 'Δρ.' : 'Dr.',
+    'honorificSuffix': 'MD, MMed',
     'jobTitle': jobTitleByLocale[locale] ?? jobTitleByLocale.en,
     'description': descriptionByLocale[locale] ?? descriptionByLocale.en,
     'url': url,
@@ -38,7 +47,9 @@ export default function JsonLd({ locale }: { locale: string }) {
   return (
     <script
       type='application/ld+json'
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(person) }}
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify({ '@context': 'https://schema.org', '@graph': [website, person] }),
+      }}
     />
   );
 }

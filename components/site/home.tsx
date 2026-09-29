@@ -101,7 +101,7 @@ export function HomeHero() {
             animate={{ opacity: 1 }}
             transition={{ delay: delay + 0.8 }}
           >
-            <span className='hidden whitespace-nowrap lg:inline'>P. Pakataridis, MD</span>
+            <span className='hidden whitespace-nowrap lg:inline'>P. Pakataridis, MD, MMed</span>
             <span className='flex items-center gap-3'>
               {t('scroll')}
               <span className='relative block h-px w-10 overflow-hidden bg-bone/15'>

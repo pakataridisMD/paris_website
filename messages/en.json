@@ -1,23 +1,23 @@
 {
   "Meta": {
     "home": {
-      "title": "Dr. Paraskevas Pakataridis — Your Personal Physician",
+      "title": "Dr. Paraskevas Pakataridis, MD, MMed",
       "description": "Your personal physician in Greece, for anything you need. Private consultations by appointment, in Greek and English."
     },
     "business": {
-      "title": "Business — Dr. Paraskevas Pakataridis",
+      "title": "Business — Dr. Paraskevas Pakataridis, MD, MMed",
       "description": "Beyond the clinic."
     },
     "medicine": {
-      "title": "Medicine — Dr. Paraskevas Pakataridis",
+      "title": "Medicine — Dr. Paraskevas Pakataridis, MD, MMed",
       "description": "Your personal physician in Greece, for anything you need. Consultations in English and Greek."
     },
     "education": {
-      "title": "Education — Dr. Paraskevas Pakataridis",
+      "title": "Education — Dr. Paraskevas Pakataridis, MD, MMed",
       "description": "Former Assistant Professor of Surgery. Research, publishing and mentoring for students and young doctors."
     },
     "privacy": {
-      "title": "Privacy notice — Dr. Paraskevas Pakataridis",
+      "title": "Privacy notice — Dr. Paraskevas Pakataridis, MD, MMed",
       "description": "How personal data submitted through this website is collected, used and protected."
     }
   },
@@ -164,7 +164,7 @@
     "cta": "Request an appointment",
     "privacy": "Privacy",
     "top": "Back to top",
-    "name": "Dr. Paraskevas Pakataridis, MD",
+    "name": "Dr. Paraskevas Pakataridis, MD, MMed",
     "based": "Based in Greece",
     "rights": "All rights reserved."
   },
