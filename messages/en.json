@@ -1,8 +1,8 @@
 {
   "Meta": {
     "home": {
-      "title": "Dr. Paraskevas Pakataridis, MD — Physician, Educator, Entrepreneur",
-      "description": "Personal physician, former Assistant Professor of Surgery and entrepreneur, based in Greece. Medical consultations, research mentoring and business projects."
+      "title": "Dr. Paraskevas Pakataridis — Your Personal Physician",
+      "description": "Your personal physician in Greece, for anything you need. Private consultations by appointment, in Greek and English."
     },
     "business": {
       "title": "Business — Dr. Paraskevas Pakataridis",
@@ -66,6 +66,10 @@
     "headingAccent": "the clinic.",
     "intro": "Some things are better discussed in person.",
     "imageAlt": "Dr. Paraskevas Pakataridis",
+    "reel": "A short film of human progress: from Euclid, through the Pantheon, Brunelleschi's dome, Magellan, the steam engine, the Hoover Dam and the microchip, to the harnessing of a star.",
+    "reelYears": ["c. 300 BC", "126", "1436", "1522", "1776", "1936", "1971", "∞"],
+    "pause": "Pause film",
+    "play": "Play film",
     "credo": ["Quietly.", "Deliberately.", "Discreetly."],
     "ctaHeading": "By introduction.",
     "cta": "Get in touch"

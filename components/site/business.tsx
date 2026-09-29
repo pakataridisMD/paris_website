@@ -11,32 +11,58 @@ import {
   type MotionValue,
 } from 'motion/react';
 import { cn } from '@/lib/utils';
-import consulate from '@/public/images/consulate-portrait.jpg';
 import meeting from '@/public/images/institutional-meeting.jpg';
 import { ArrowButton } from './button';
 import { useContact } from './contact';
 import { SmoothImage } from './media';
-import { Reveal } from './motion';
+import { EASE, Reveal, SplitWords, useEntranceDelay } from './motion';
 import { NextChapter } from './next-chapter';
-import { PageHero } from './page-hero';
+import { Reel } from './reel';
 
 /* Deliberately spare: a signal of openness, not a list of services. */
 export function BusinessPage() {
   const t = useTranslations('Business');
   const openContact = useContact();
+  const delay = useEntranceDelay();
 
   return (
     <>
-      <PageHero
-        index='02'
-        label={t('label')}
-        title={t('heading')}
-        titleAccent={t('headingAccent')}
-        intro={t('intro')}
-        image={consulate}
-        imageAlt={t('imageAlt')}
-        imagePosition='object-[50%_30%]'
-      />
+      <Reel
+        years={t.raw('reelYears') as string[]}
+        label={t('reel')}
+        pauseLabel={t('pause')}
+        playLabel={t('play')}
+      >
+        <div className='@container'>
+          <motion.div
+            className='flex items-center gap-4 font-mono text-[11px] tracking-[0.25em] text-brass uppercase'
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay, duration: 1 }}
+          >
+            <span>02</span>
+            <motion.span
+              className='h-px w-12 origin-left bg-current opacity-50'
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ delay: delay + 0.2, duration: 1.2, ease: EASE }}
+            />
+            <span>{t('label')}</span>
+          </motion.div>
+          <h1 className='mt-6 font-serif text-[min(13cqw,7rem)] leading-[1] font-light tracking-[-0.03em]'>
+            <SplitWords immediate delay={delay} text={t('heading')} className='block' />{' '}
+            <SplitWords immediate delay={delay + 0.12} text={t('headingAccent')} className='block text-brass italic' />
+          </h1>
+          <motion.p
+            className='mt-6 max-w-md text-lg leading-relaxed text-bone/70'
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: delay + 0.35, duration: 1, ease: EASE }}
+          >
+            {t('intro')}
+          </motion.p>
+        </div>
+      </Reel>
 
       <CredoScene lines={t.raw('credo') as string[]} imageAlt={t('imageAlt')} />
 

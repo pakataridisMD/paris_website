@@ -6,8 +6,8 @@ const nameByLocale: Record<string, string> = {
 };
 
 const descriptionByLocale: Record<string, string> = {
-  en: 'Physician, educator and entrepreneur based in Greece. Former Assistant Professor of Surgery, with international clinical experience in New York and the United Kingdom.',
-  el: 'Ιατρός, εκπαιδευτής και επιχειρηματίας με έδρα την Ελλάδα. Πρώην Επίκουρος Καθηγητής Χειρουργικής, με διεθνή κλινική εμπειρία στη Νέα Υόρκη και στο Ηνωμένο Βασίλειο.',
+  en: 'Personal physician based in Greece, with international clinical experience in New York and the United Kingdom. Educator and researcher.',
+  el: 'Προσωπικός ιατρός με έδρα την Ελλάδα, με διεθνή κλινική εμπειρία στη Νέα Υόρκη και στο Ηνωμένο Βασίλειο. Εκπαιδευτής και ερευνητής.',
 };
 
 const jobTitleByLocale: Record<string, string> = {
