@@ -4,38 +4,60 @@ import { useEffect, useRef, useState, type ReactNode } from 'react';
 import Image, { type StaticImageData } from 'next/image';
 import { AnimatePresence, motion, useInView, useReducedMotion } from 'motion/react';
 import { Pause, Play } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import euclid from '@/public/images/reel/01-euclid.jpg';
-import pantheon from '@/public/images/reel/02-pantheon.jpg';
-import florence from '@/public/images/reel/03-florence.jpg';
-import magellan from '@/public/images/reel/04-magellan.jpg';
-import watt from '@/public/images/reel/05-watt.jpg';
-import dam from '@/public/images/reel/06-dam.jpg';
-import chip from '@/public/images/reel/07-chip.jpg';
-import sun from '@/public/images/reel/08-sun.jpg';
-import { EASE } from './motion';
+import writing from '@/public/images/reel/01-writing.jpg';
+import pyramids from '@/public/images/reel/02-pyramids.jpg';
+import parthenon from '@/public/images/reel/03-parthenon.jpg';
+import euclid from '@/public/images/reel/04-euclid.jpg';
+import pantheon from '@/public/images/reel/05-pantheon.jpg';
+import florence from '@/public/images/reel/06-florence.jpg';
+import gutenberg from '@/public/images/reel/07-gutenberg.jpg';
+import vitruvian from '@/public/images/reel/08-vitruvian.jpg';
+import magellan from '@/public/images/reel/09-magellan.jpg';
+import newton from '@/public/images/reel/10-newton.jpg';
+import watt from '@/public/images/reel/11-watt.jpg';
+import xray from '@/public/images/reel/12-xray.jpg';
+import flight from '@/public/images/reel/13-flight.jpg';
+import dam from '@/public/images/reel/14-dam.jpg';
+import moon from '@/public/images/reel/15-moon.jpg';
+import chip from '@/public/images/reel/16-chip.jpg';
+import hubble from '@/public/images/reel/17-hubble.jpg';
+import sun from '@/public/images/reel/18-sun.jpg';
 
-/* All frames are public domain or CC0, from Wikimedia Commons:
-   Raphael, The School of Athens · G. P. Panini, Interior of the Pantheon
-   (NGA, CC0) · Photochrom of Florence (Library of Congress) · A. Ortelius,
-   Maris Pacifici (1589) · Watt's rotative engine, lantern slide (c. 1782) ·
-   Ansel Adams, Hoover Dam (National Archives) · Intel 4004 layout (CC0) ·
-   NASA SDO, the Sun at 304 Å. */
+/* Every frame is public domain or CC0, from Wikimedia Commons: Met Museum
+   cuneiform tablet (CC0) · F. Bonfils, Giza (Museo Egizio, CC0) · Parthenon
+   drawing, 1869 (Cooper Hewitt) · Raphael, The School of Athens · G. P. Panini,
+   Interior of the Pantheon (NGA, CC0) · Photochrom of Florence (LoC) ·
+   Gutenberg Bible, Genesis · Leonardo, Vitruvian Man · A. Ortelius, Maris
+   Pacifici · Newton, Principia (1687) · Watt's rotative engine (c. 1782) ·
+   Röntgen's first X-ray (1895) · Wright brothers, first flight (1903) ·
+   Ansel Adams, Hoover Dam (NARA) · NASA, Apollo 11 · Intel 4004 layout (CC0)
+   · NASA/Hubble Ultra Deep Field · NASA SDO, the Sun. */
 const SCENES: { src: StaticImageData; position: string; origin: string }[] = [
+  { src: writing, position: '50% 50%', origin: '50% 50%' },
+  { src: pyramids, position: '45% 45%', origin: '45% 35%' },
+  { src: parthenon, position: '40% 50%', origin: '40% 45%' },
   { src: euclid, position: '55% 60%', origin: '65% 70%' },
   { src: pantheon, position: '50% 30%', origin: '50% 20%' },
   { src: florence, position: '58% 40%', origin: '58% 40%' },
+  { src: gutenberg, position: '35% 50%', origin: '40% 60%' },
+  { src: vitruvian, position: '50% 45%', origin: '50% 35%' },
   { src: magellan, position: '62% 55%', origin: '60% 58%' },
+  { src: newton, position: '50% 45%', origin: '50% 45%' },
   { src: watt, position: '60% 45%', origin: '65% 55%' },
+  { src: xray, position: '40% 50%', origin: '40% 45%' },
+  { src: flight, position: '40% 45%', origin: '35% 45%' },
   { src: dam, position: '35% 35%', origin: '35% 30%' },
+  { src: moon, position: '48% 35%', origin: '48% 30%' },
   { src: chip, position: '50% 50%', origin: '50% 50%' },
+  { src: hubble, position: '50% 50%', origin: '50% 50%' },
   { src: sun, position: '50% 50%', origin: '50% 50%' },
 ];
 
-const SCENE_MS = 4200;
+const SCENE_MS = 1000;
+const PRELOAD_AHEAD = 3;
 
-/* A looping, silent "film" of human progress built from still frames:
-   slow push-ins, crossfades and a year counter. */
+/* A looping, silent "film" of human progress built from still frames: one
+   milestone a second, dissolving into each other as one continuous push. */
 export function Reel({
   years,
   label,
@@ -54,55 +76,64 @@ export function Reel({
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
   const inView = useInView(ref, { amount: 0.2 });
-  const [index, setIndex] = useState(0);
+  // Monotonic step counter: keys each frame so its animation restarts even
+  // when the same scene comes round again.
+  const [step, setStep] = useState(0);
   const [paused, setPaused] = useState(false);
   const playing = !reduce && !paused && inView;
+  const count = SCENES.length;
+  const index = step % count;
 
   useEffect(() => {
     if (!playing) return;
-    const id = setInterval(() => setIndex((i) => (i + 1) % SCENES.length), SCENE_MS);
+    const id = setInterval(() => setStep((s) => s + 1), SCENE_MS);
     return () => clearInterval(id);
   }, [playing]);
+
+  // The frame on screen plus the one it is dissolving over.
+  const layers = reduce ? [step] : step > 0 ? [step - 1, step] : [step];
 
   return (
     <section ref={ref} className='relative h-[100svh] min-h-[560px] overflow-hidden bg-ink'>
       <p className='sr-only'>{label}</p>
 
-      {SCENES.map((scene, i) => {
-        const active = i === index;
+      {layers.map((s) => {
+        const scene = SCENES[s % count];
         return (
-          <motion.div
-            key={i}
+          <div
+            key={s}
             aria-hidden='true'
-            className='absolute inset-0'
-            initial={false}
-            animate={{ opacity: active ? 1 : 0 }}
-            transition={{ duration: 1.6, ease: 'easeInOut' }}
+            className='absolute inset-0 will-change-transform'
+            style={
+              reduce
+                ? undefined
+                : {
+                    transformOrigin: scene.origin,
+                    animation: `reel-frame ${SCENE_MS * 2}ms linear forwards`,
+                    animationPlayState: playing ? 'running' : 'paused',
+                  }
+            }
           >
-            <motion.div
-              className='absolute inset-0'
-              style={{ transformOrigin: scene.origin }}
-              initial={false}
-              animate={{ scale: active ? 1 : 1.14 }}
-              transition={{
-                duration: active ? SCENE_MS / 1000 + 1.6 : 1.6,
-                ease: active ? 'linear' : 'easeIn',
-              }}
-            >
-              <Image
-                src={scene.src}
-                alt=''
-                fill
-                sizes='100vw'
-                priority={i < 2}
-                placeholder='blur'
-                className='object-cover'
-                style={{ objectPosition: scene.position }}
-              />
-            </motion.div>
-          </motion.div>
+            <Image
+              src={scene.src}
+              alt=''
+              fill
+              sizes='100vw'
+              priority={s < 2}
+              className='object-cover'
+              style={{ objectPosition: scene.position }}
+            />
+          </div>
         );
       })}
+
+      {/* Warm the cache for the next few frames so every cut is instant */}
+      <div aria-hidden='true' className='pointer-events-none invisible absolute h-0 w-0 overflow-hidden'>
+        {Array.from({ length: PRELOAD_AHEAD }, (_, k) => {
+          const scene = SCENES[(index + 1 + k) % count];
+          return <Image key={(step + 1 + k) % count} src={scene.src} alt='' fill sizes='100vw' loading='eager' />;
+        })}
+      </div>
 
       {/* Film treatment: vignette, grain and a dark base for the type */}
       <div aria-hidden='true' className='pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(12,12,12,0.75)_100%)]' />
@@ -115,16 +146,16 @@ export function Reel({
           <div className='w-full max-w-3xl min-w-0 md:flex-1'>{children}</div>
 
           <div className='flex flex-col gap-5 md:items-end'>
-            {/* Year counter */}
-            <div aria-hidden='true' className='h-[1.15em] overflow-hidden font-serif text-4xl leading-none font-light whitespace-nowrap text-brass italic md:text-7xl'>
-              <AnimatePresence mode='wait' initial={false}>
+            {/* Year counter: rolls over once a second */}
+            <div aria-hidden='true' className='relative h-[1.15em] overflow-hidden font-serif text-4xl leading-none font-light whitespace-nowrap text-brass italic md:min-w-[5.5em] md:text-7xl'>
+              <AnimatePresence initial={false}>
                 <motion.span
-                  key={index}
-                  className='block'
+                  key={step}
+                  className='absolute inset-x-0 top-0 block md:text-right'
                   initial={{ y: '100%', opacity: 0 }}
                   animate={{ y: '0%', opacity: 1 }}
                   exit={{ y: '-100%', opacity: 0 }}
-                  transition={{ duration: 0.7, ease: EASE }}
+                  transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
                 >
                   {years[index]}
                 </motion.span>
@@ -132,28 +163,19 @@ export function Reel({
             </div>
 
             <div className='flex items-center gap-4'>
-              {/* One segment per scene; the current one fills as it plays */}
-              <div aria-hidden='true' className='flex gap-1.5'>
-                {SCENES.map((_, i) => (
-                  <span key={i} className='relative h-px w-5 overflow-hidden bg-bone/20 md:w-7'>
-                    <span
-                      key={i === index ? `${index}-${playing}` : i}
-                      className={cn(
-                        'absolute inset-0 origin-left bg-bone',
-                        i < index && 'scale-x-100',
-                        i > index && 'scale-x-0',
-                      )}
-                      style={
-                        i === index
-                          ? {
-                              animation: `reel-progress ${SCENE_MS}ms linear forwards`,
-                              animationPlayState: playing ? 'running' : 'paused',
-                            }
-                          : undefined
-                      }
-                    />
-                  </span>
-                ))}
+              {/* Timeline: fills as the film moves through history */}
+              <div aria-hidden='true' className='flex items-center gap-3 font-mono text-[11px] tracking-[0.2em] text-bone/60 tabular-nums'>
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <span className='relative h-px w-28 overflow-hidden bg-bone/20 md:w-40'>
+                  <span
+                    className='absolute inset-y-0 left-0 bg-brass'
+                    style={{
+                      width: `${((index + 1) / count) * 100}%`,
+                      transition: index === 0 ? 'none' : `width ${SCENE_MS}ms linear`,
+                    }}
+                  />
+                </span>
+                <span>{String(count).padStart(2, '0')}</span>
               </div>
               <button
                 type='button'

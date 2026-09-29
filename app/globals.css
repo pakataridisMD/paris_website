@@ -165,10 +165,13 @@
   to { transform: translate3d(0, 0, 0); }
 }
 
-/* Business film: progress segment for the current scene */
-@keyframes reel-progress {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
+/* Business film: every frame dissolves in and keeps pushing forward for two
+   scene lengths, so the next frame fades in over a still-moving image and the
+   whole reel reads as one continuous shot. */
+@keyframes reel-frame {
+  0% { opacity: 0; transform: scale(1.04); }
+  22% { opacity: 1; }
+  100% { opacity: 1; transform: scale(1.2); }
 }
 
 /* Appointment panel — Radix waits for these exit animations before unmounting */
