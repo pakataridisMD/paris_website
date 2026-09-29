@@ -185,8 +185,65 @@
   18% { transform: scale(1.04) translate(-0.4%, 0.3%); filter: none; animation-timing-function: linear; }
   100% { transform: scale(1.1) translate(0, 0); filter: none; }
 }
+/* The biggest hits: harder zoom, blown-out light and a camera shake. */
+@keyframes reel-mega {
+  0% { transform: scale(1.55) translate(2.5%, -2%); filter: brightness(3) blur(10px) contrast(1.4); }
+  5% { transform: scale(1.2) translate(-2%, 1.6%); }
+  10% { transform: scale(1.08) translate(1.4%, -1%); filter: brightness(1.4) blur(2px) contrast(1.1); }
+  15% { transform: scale(1.04) translate(-0.6%, 0.4%); filter: none; animation-timing-function: linear; }
+  100% { transform: scale(1.1) translate(0, 0); filter: none; }
+}
+/* A sideways whip, for journeys. */
+@keyframes reel-swipe {
+  0% { transform: translateX(14%) scale(1.15); filter: blur(10px) brightness(1.5); animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+  18% { transform: translateX(0) scale(1.04); filter: none; animation-timing-function: linear; }
+  100% { transform: translateX(-2%) scale(1.08); filter: none; }
+}
+/* Calm moments: a slow dissolve, and a pull into focus. */
+@keyframes reel-drift {
+  0% { opacity: 0; transform: scale(1.02); }
+  35% { opacity: 1; }
+  100% { opacity: 1; transform: scale(1.1); }
+}
+@keyframes reel-focus {
+  0% { opacity: 0; transform: scale(1.12); filter: blur(14px); }
+  30% { opacity: 1; }
+  55% { filter: blur(0); }
+  100% { opacity: 1; transform: scale(1.02); filter: blur(0); }
+}
+/* Into space: the zoom keeps accelerating. */
+@keyframes reel-warp {
+  0% { transform: scale(1.02); filter: brightness(1) blur(0); animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45); }
+  100% { transform: scale(2.1); filter: brightness(1.7) blur(6px); }
+}
+/* The finale: the Sun rises out of the rush, then breathes. */
+@keyframes reel-finale {
+  0% { opacity: 0; transform: scale(1.35); filter: blur(10px) brightness(1.8); animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+  25% { opacity: 1; transform: scale(1.02); filter: blur(0) brightness(1.15); animation-timing-function: linear; }
+  100% { opacity: 1; transform: scale(1.12); filter: brightness(1); }
+}
+@keyframes reel-glow {
+  0% { opacity: 0; transform: scale(0.6); }
+  30% { opacity: 0.9; transform: scale(1); }
+  60% { opacity: 0.6; transform: scale(1.08); }
+  100% { opacity: 0.8; transform: scale(1.18); }
+}
+@keyframes reel-rays {
+  0% { opacity: 0; transform: rotate(0deg); }
+  25% { opacity: 0.35; }
+  100% { opacity: 0.22; transform: rotate(40deg); }
+}
+/* Slow fade to black at the end of the finale, then a beat of darkness. */
+@keyframes reel-blackout {
+  0%, 56% { opacity: 0; }
+  88%, 100% { opacity: 1; }
+}
+@keyframes reel-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
 @keyframes reel-flash {
-  from { opacity: 0.55; }
+  from { opacity: var(--flash, 0.55); }
   to { opacity: 0; }
 }
 
