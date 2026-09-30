@@ -67,29 +67,16 @@ export function EducationPage() {
             />
           </div>
 
-          {/* Featured research */}
-          <article className='mt-24 border-t border-white/10 pt-10 md:mt-36'>
-            <Reveal className='grid gap-8 md:grid-cols-12'>
-              <p className='font-mono text-[11px] tracking-[0.25em] text-brass uppercase md:col-span-3'>
-                {t('featuredTag')}
-              </p>
-              <div className='md:col-span-9'>
-                <h2 className='font-serif text-[clamp(1.8rem,3.4vw,3rem)] leading-[1.15] font-light tracking-[-0.01em]'>
-                  {t('featuredTitle')}
-                </h2>
-                <p className='mt-5 text-bone/50'>{t('featuredVenue')}</p>
-              </div>
-            </Reveal>
-            <ScrollMedia
-              src={podium}
-              alt={t('featuredVenue')}
-              className='mt-12'
-              aspect='aspect-[1179/378] min-h-56'
-              position='object-left'
-              sizes='(min-width: 1280px) 1216px, 100vw'
-              from={0.82}
-            />
-          </article>
+          {/* At the podium: the photo speaks for itself */}
+          <ScrollMedia
+            src={podium}
+            alt={t('featuredVenue')}
+            className='mt-24 md:mt-36'
+            aspect='aspect-[1179/378] min-h-56'
+            position='object-left'
+            sizes='(min-width: 1280px) 1216px, 100vw'
+            from={0.82}
+          />
 
           {/* What I teach — cards stack as you scroll */}
           <div className='mt-28 grid gap-10 md:mt-40 md:grid-cols-12'>
