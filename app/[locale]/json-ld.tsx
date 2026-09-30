@@ -17,6 +17,7 @@ const jobTitleByLocale: Record<string, string> = {
 
 export default function JsonLd({ locale }: { locale: string }) {
   const url = locale === 'en' ? site.url : `${site.url}/${locale}`;
+  const sameAs = Object.values(site.profiles).filter((p): p is string => Boolean(p));
 
   // The site name Google shows above results.
   const website = {
@@ -36,9 +37,17 @@ export default function JsonLd({ locale }: { locale: string }) {
     'url': url,
     'image': `${site.url}/images/headshot.jpg`,
     'knowsLanguage': ['en', 'el'],
-    'address': { '@type': 'PostalAddress', 'addressCountry': 'GR' },
+    'address': {
+      '@type': 'PostalAddress',
+      'addressLocality': locale === 'el' ? 'Αμαλιάδα' : 'Amaliada',
+      'addressCountry': 'GR',
+    },
+    'areaServed': { '@type': 'Country', 'name': 'Greece' },
     ...(site.phone && { telephone: site.phone }),
+    ...(sameAs.length > 0 && { sameAs }),
     'memberOf': [
+      { '@type': 'MedicalOrganization', 'name': 'Panhellenic Medical Association' },
+      { '@type': 'MedicalOrganization', 'name': 'Medical Association of Amaliada' },
       { '@type': 'MedicalOrganization', 'name': 'Society of American Gastrointestinal and Endoscopic Surgeons' },
       { '@type': 'MedicalOrganization', 'name': 'American College of Surgeons' },
     ],

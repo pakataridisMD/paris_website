@@ -2,7 +2,7 @@
   "Meta": {
     "home": {
       "title": "Dr. Paraskevas Pakataridis, MD, MMed",
-      "description": "Your personal physician in Greece, for anything you need. Private consultations by appointment, in Greek and English."
+      "description": "Your personal physician in Amaliada, and by telemedicine across Greece. Private consultations by appointment, in Greek and English."
     },
     "business": {
       "title": "Business — Dr. Paraskevas Pakataridis, MD, MMed",
@@ -10,7 +10,7 @@
     },
     "medicine": {
       "title": "Medicine — Dr. Paraskevas Pakataridis, MD, MMed",
-      "description": "Your personal physician in Greece, for anything you need. Consultations in English and Greek."
+      "description": "Your personal physician in Amaliada, and by telemedicine across Greece. Consultations in English and Greek."
     },
     "education": {
       "title": "Education — Dr. Paraskevas Pakataridis, MD, MMed",
@@ -35,7 +35,7 @@
     "firstName": "Paraskevas",
     "lastName": "Pakataridis",
     "statement": "One standard across medicine, business and education: discretion, precision and a personal commitment to every person I work with.",
-    "based": "Based in Greece · Working internationally",
+    "based": "Based in Amaliada, Greece · Working internationally",
     "cta": "Request an appointment",
     "scroll": "Scroll",
     "portraitAlt": "Dr. Paraskevas Pakataridis",
@@ -81,10 +81,13 @@
     "reel": "A short film of the history of medicine: from an ancient Egyptian medical papyrus and Hippocrates, through Avicenna, Vesalius, Harvey, Hooke's first cells, Jenner's vaccine, Laennec's stethoscope, Florence Nightingale, Pasteur, the electrocardiogram, penicillin, the double helix, the polio vaccine, MRI and the human genome, to mRNA vaccines and the universe within the human brain.",
     "reelYears": ["1600 BC", "400 BC", "1025", "1543", "1628", "1665", "1796", "1816", "1854", "1885", "1903", "1928", "1953", "1955", "1977", "2003", "2020", "∞"],
     "points": ["Personal consultations", "Second opinions", "Specialist referrals", "Care coordination"],
-    "about": "Medical doctor with international clinical experience in New York and the United Kingdom. Now based in Greece.",
+    "about": "Medical doctor with international clinical experience in New York and the United Kingdom. Now based in Amaliada, Greece.",
     "contactTitle": "Get in touch",
     "location": "Location",
-    "locationValue": "Greece",
+    "locationValue": "Amaliada, Greece",
+    "telemedicine": "Telemedicine",
+    "telemedicineValue": "Across Greece",
+    "registration": "Licensed to practise medicine in Greece. Registered with the Panhellenic Medical Association and the Medical Association of Amaliada.",
     "languages": "Languages",
     "languagesValue": "English · Ελληνικά",
     "appointments": "Appointments",
@@ -117,6 +120,7 @@
       { "name": "Queen Elizabeth Hospital", "place": "Birmingham" }
     ],
     "membershipsTitle": "Memberships",
+    "publications": "Publications on ResearchGate",
     "memberships": [
       "American College of Surgeons",
       "Society of American Gastrointestinal and Endoscopic Surgeons"
@@ -128,7 +132,7 @@
   "Contact": {
     "eyebrow": "Appointments",
     "title": "Request an appointment",
-    "description": "Share a few details about your enquiry. Every request is reviewed personally and answered directly.",
+    "description": "Share a few details about your enquiry. Every request is reviewed personally and answered within 24 hours.",
     "topicLabel": "Regarding",
     "topics": {
       "medical": "Medical",
@@ -151,19 +155,19 @@
     "submitSending": "Sending...",
     "submitButton": "Send request",
     "successTitle": "Request received.",
-    "successMessage": "Thank you. I will review your request and reply to you personally.",
+    "successMessage": "Thank you. I will review your request and reply to you personally within 24 hours.",
     "close": "Close",
     "errorGeneric": "Your request could not be sent. Please try again in a moment."
   },
   "Footer": {
     "heading": "Let's talk.",
     "appointmentsLabel": "Appointments",
-    "appointmentsText": "By request only. Share a few details and I will reply personally.",
+    "appointmentsText": "By request only. Share a few details and I will reply personally within 24 hours.",
     "cta": "Request an appointment",
     "privacy": "Privacy",
     "top": "Back to top",
     "name": "Dr. Paraskevas Pakataridis, MD, MMed",
-    "based": "Based in Greece",
+    "based": "Based in Amaliada, Greece",
     "rights": "All rights reserved."
   },
   "Privacy": {
@@ -173,7 +177,7 @@
     "sections": [
       {
         "heading": "Who is responsible",
-        "body": "Dr. Paraskevas Pakataridis, based in Greece, is responsible for the personal data collected through this website."
+        "body": "Dr. Paraskevas Pakataridis, based in Amaliada, Greece, is responsible for the personal data collected through this website."
       },
       {
         "heading": "What is collected",

@@ -20,6 +20,7 @@ export function MedicinePage() {
 
   const details = [
     { label: t('location'), value: t('locationValue') },
+    { label: t('telemedicine'), value: t('telemedicineValue') },
     { label: t('languages'), value: t('languagesValue') },
     { label: t('appointments'), value: t('appointmentsValue') },
     site.phone && { label: t('phone'), value: site.phone, href: `tel:${site.phone.replace(/\s/g, '')}` },
@@ -46,6 +47,9 @@ export function MedicinePage() {
               <p className='mt-10 font-serif text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.15] font-light tracking-[-0.01em]'>
                 {t('about')}
               </p>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <p className='mt-8 max-w-lg text-sm leading-relaxed text-ink/55'>{t('registration')}</p>
             </Reveal>
           </div>
           <ScrollMedia
@@ -90,7 +94,7 @@ export function MedicinePage() {
                         <dt className='font-mono text-[11px] tracking-[0.2em] text-bone/40 uppercase'>
                           {d.label}
                         </dt>
-                        <dd className='mt-1.5 text-lg break-all'>
+                        <dd className='mt-1.5 text-lg break-words'>
                           {d.href ? (
                             <a href={d.href} className='underline-offset-4 transition-colors hover:text-brass hover:underline'>
                               {d.value}

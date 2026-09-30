@@ -2,7 +2,8 @@
 
 import { useTranslations } from 'next-intl';
 import { motion } from 'motion/react';
-import { FileText, GraduationCap, Microscope, MonitorPlay, Presentation } from 'lucide-react';
+import { ArrowUpRight, FileText, GraduationCap, Microscope, MonitorPlay, Presentation } from 'lucide-react';
+import { site } from '@/lib/site';
 import summit from '@/public/images/acs-summit-group.jpg';
 import podium from '@/public/images/acs-summit-podium.jpg';
 import simulator from '@/public/images/simulator-teaching.jpg';
@@ -135,6 +136,20 @@ export function EducationPage() {
               ))}
             </CredentialList>
           </div>
+
+          {site.profiles.researchGate && (
+            <Reveal className='mt-10'>
+              <a
+                href={site.profiles.researchGate}
+                target='_blank'
+                rel='noopener noreferrer'
+                className='inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.25em] text-brass uppercase underline-offset-8 transition-colors hover:text-bone hover:underline'
+              >
+                {t('publications')}
+                <ArrowUpRight className='h-3.5 w-3.5' />
+              </a>
+            </Reveal>
+          )}
 
           {/* Mentoring call to action */}
           <Reveal className='mt-24 md:mt-36'>
